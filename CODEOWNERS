@@ -1,0 +1,29 @@
+# Code Owners for Project Locus
+# This file defines who is responsible for reviewing changes to specific parts of the repository
+
+# Global ownership - requires review from infrastructure team
+* @toolate28
+
+# Documentation requires review from both infrastructure and documentation teams
+/docs/ @toolate28
+/README.md @toolate28
+/MIGRATION_KIT.md @toolate28
+
+# Automation scripts require careful review due to security implications
+/automation/ @toolate28
+
+# Configuration files require infrastructure team review
+/config/ @toolate28
+/context/ @toolate28
+
+# CI/CD workflows require devops review
+/.github/ @toolate28
+
+# Security-sensitive areas require additional review
+/scripts/ @toolate28
+/.gitignore @toolate28
+
+# Claude onboarding and AI directives require specialized review
+/CLAUDE.md @toolate28
+/docs/*ai* @toolate28
+/docs/*claude* @toolate28
