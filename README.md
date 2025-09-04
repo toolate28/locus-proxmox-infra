@@ -66,9 +66,13 @@ This repository establishes the institutional scaffolding for Project Locus with
 ├── config/
 │   └── resource_config.json       # Resource monitoring configuration
 └── docs/
-    ├── connector_guide.md          # Step-by-step agent setup
-    ├── onboarding_playbook.md      # New contributor guide
-    └── copilot_space_activation.md # Space activation details
+├── docs/
+│   ├── connector_guide.md          # Step-by-step agent setup
+│   ├── onboarding_playbook.md      # New contributor guide
+│   ├── copilot_space_activation.md # Space activation details
+│   ├── user-ai-directive-guide.md  # Multi-agent coordination protocols
+│   └── perplexity-integration.md   # Research & knowledge management
+└── CLAUDE.md                       # Claude Pro MCP onboarding guide
 ```
 
 ## 🔐 Security & Compliance
@@ -85,6 +89,13 @@ LUMO_INSTANCE_ID        # Lumo instance identifier
 - **Format:** `LOCUS-{TYPE}{TIMESTAMP}-{COUNTER}`
 - **Coverage:** 100% of jobs, tasks, and artifacts
 - **Audit Trail:** Full traceability for compliance
+
+### Governance & CI
+- **Automated Policy Validation:** GitHub Actions workflow checks
+- **Secret Scanning:** Continuous monitoring for exposed credentials
+- **Code Owners:** `CODEOWNERS` file enforces review requirements
+- **PR Templates:** Standardized contribution process
+- **Multi-Agent Coordination:** Governed by USER-AI directive protocols
 
 ## 📊 Resource Awareness
 
@@ -106,14 +117,17 @@ LUMO_INSTANCE_ID        # Lumo instance identifier
 ### For New Contributors
 1. **Read:** [Onboarding Playbook](docs/onboarding_playbook.md) (2.5 hours)
 2. **Setup:** Follow [Connector Guide](docs/connector_guide.md)
-3. **Test:** Run automation scripts to verify integration
-4. **Contribute:** Join your assigned agent team
+3. **Learn:** Study [USER-AI Directive Guide](docs/user-ai-directive-guide.md) for multi-agent workflows
+4. **Claude Users:** Review [Claude MCP Onboarding](CLAUDE.md) for advanced integration
+5. **Test:** Run automation scripts to verify integration
+6. **Contribute:** Join your assigned agent team
 
 ### For Infrastructure Teams  
 1. **Configure:** Update `config/resource_config.json` with your endpoints
 2. **Deploy:** Set up monitoring intervals and alerting
 3. **Automate:** Add scripts to your CI/CD pipeline
-4. **Monitor:** Use generated reports for capacity planning
+4. **Coordinate:** Implement multi-agent workflows per USER-AI directive guide
+5. **Monitor:** Use generated reports for capacity planning
 
 ## 🔄 Agent Capabilities
 

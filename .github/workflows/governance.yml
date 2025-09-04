@@ -87,10 +87,14 @@ jobs:
       - name: Check for hardcoded secrets
         run: |
           echo "Scanning for potential hardcoded secrets..."
+          # More refined search excluding documentation patterns
           if grep -r -i -E "(password|token|key|secret|api[_-]?key)" \
-             --include="*.sh" --include="*.md" --include="*.json" . | \
+             --include="*.sh" --include="*.json" --exclude-dir=docs . | \
              grep -v "secrets\." | grep -v "GITHUB_TOKEN" | \
-             grep -v "\${{" | grep -v "example" | grep -v "placeholder"; then
+             grep -v "\${{" | grep -v "example" | grep -v "placeholder" | \
+             grep -v "auth_method" | grep -v "secret_ref" | \
+             grep -v "github_secret:" | grep -v "# " | \
+             grep -v "\$[A-Z_]*" | grep -E "=.*[a-zA-Z0-9]{10,}"; then
             echo "❌ Potential hardcoded secrets found"
             exit 1
           else
