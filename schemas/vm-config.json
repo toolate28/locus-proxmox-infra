@@ -1,0 +1,149 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://schemas.locus-proxmox.local/vm-config.json",
+  "title": "Virtual Machine Configuration",
+  "description": "Schema for validating VM provisioning configuration",
+  "type": "object",
+  "required": ["name", "cores", "memory", "disk"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9-]+$",
+      "minLength": 3,
+      "maxLength": 50,
+      "description": "VM name (alphanumeric and hyphens only)"
+    },
+    "vmid": {
+      "type": "integer",
+      "minimum": 100,
+      "maximum": 9999,
+      "description": "VM ID (auto-generated if not provided)"
+    },
+    "cores": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 32,
+      "description": "Number of CPU cores"
+    },
+    "memory": {
+      "type": "integer",
+      "minimum": 512,
+      "maximum": 32768,
+      "description": "Memory in MB"
+    },
+    "disk": {
+      "type": "integer",
+      "minimum": 10,
+      "maximum": 1000,
+      "description": "Disk size in GB"
+    },
+    "template": {
+      "type": "string",
+      "enum": [
+        "ubuntu-20.04",
+        "ubuntu-22.04",
+        "debian-11",
+        "debian-12",
+        "centos-8",
+        "rocky-8",
+        "rocky-9"
+      ],
+      "default": "ubuntu-22.04",
+      "description": "VM template to use"
+    },
+    "storage": {
+      "type": "string",
+      "enum": [
+        "local-lvm",
+        "shared-nfs",
+        "ceph-rbd"
+      ],
+      "default": "local-lvm",
+      "description": "Storage pool for VM disk"
+    },
+    "network": {
+      "type": "object",
+      "properties": {
+        "bridge": {
+          "type": "string",
+          "default": "vmbr0",
+          "description": "Network bridge"
+        },
+        "vlan": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4094,
+          "description": "VLAN ID (optional)"
+        },
+        "firewall": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable firewall"
+        }
+      },
+      "required": ["bridge"]
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9-_]+$"
+      },
+      "uniqueItems": true,
+      "maxItems": 10,
+      "description": "VM tags for organization"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "VM description"
+    },
+    "startup": {
+      "type": "object",
+      "properties": {
+        "order": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 999,
+          "description": "Startup order"
+        },
+        "up": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 300,
+          "description": "Startup delay in seconds"
+        },
+        "down": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 300,
+          "description": "Shutdown timeout in seconds"
+        }
+      }
+    },
+    "cloud_init": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "type": "string",
+          "default": "ubuntu",
+          "description": "Default user"
+        },
+        "ssh_keys": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "SSH public keys"
+        },
+        "packages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Packages to install"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,292 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://schemas.locus-proxmox.local/monitoring-config.json",
+  "title": "Monitoring Configuration",
+  "description": "Schema for validating monitoring and alerting configuration",
+  "type": "object",
+  "required": ["thresholds", "checks"],
+  "properties": {
+    "thresholds": {
+      "type": "object",
+      "required": ["cpu", "memory", "storage"],
+      "properties": {
+        "cpu": {
+          "type": "object",
+          "properties": {
+            "warning": {
+              "type": "number",
+              "minimum": 50,
+              "maximum": 90,
+              "default": 70
+            },
+            "critical": {
+              "type": "number",
+              "minimum": 60,
+              "maximum": 95,
+              "default": 85
+            }
+          },
+          "required": ["warning", "critical"]
+        },
+        "memory": {
+          "type": "object",
+          "properties": {
+            "warning": {
+              "type": "number",
+              "minimum": 50,
+              "maximum": 90,
+              "default": 75
+            },
+            "critical": {
+              "type": "number",
+              "minimum": 60,
+              "maximum": 95,
+              "default": 90
+            }
+          },
+          "required": ["warning", "critical"]
+        },
+        "storage": {
+          "type": "object",
+          "properties": {
+            "warning": {
+              "type": "number",
+              "minimum": 70,
+              "maximum": 90,
+              "default": 80
+            },
+            "critical": {
+              "type": "number",
+              "minimum": 75,
+              "maximum": 95,
+              "default": 90
+            }
+          },
+          "required": ["warning", "critical"]
+        },
+        "load": {
+          "type": "object",
+          "properties": {
+            "warning": {
+              "type": "number",
+              "minimum": 1.0,
+              "maximum": 10.0,
+              "default": 2.0
+            },
+            "critical": {
+              "type": "number",
+              "minimum": 2.0,
+              "maximum": 20.0,
+              "default": 5.0
+            }
+          }
+        }
+      }
+    },
+    "checks": {
+      "type": "object",
+      "properties": {
+        "interval": {
+          "type": "integer",
+          "minimum": 30,
+          "maximum": 3600,
+          "default": 300,
+          "description": "Check interval in seconds"
+        },
+        "timeout": {
+          "type": "integer",
+          "minimum": 5,
+          "maximum": 300,
+          "default": 30,
+          "description": "Check timeout in seconds"
+        },
+        "retries": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "default": 3,
+          "description": "Number of retries before failure"
+        },
+        "enabled": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "cpu_usage",
+              "memory_usage", 
+              "storage_usage",
+              "load_average",
+              "service_status",
+              "backup_status",
+              "certificate_expiry",
+              "vm_status",
+              "network_connectivity"
+            ]
+          },
+          "uniqueItems": true,
+          "description": "Enabled check types"
+        }
+      },
+      "required": ["interval", "enabled"]
+    },
+    "notifications": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": false
+            },
+            "smtp_server": {
+              "type": "string",
+              "description": "SMTP server hostname"
+            },
+            "smtp_port": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 65535,
+              "default": 587
+            },
+            "username": {
+              "type": "string",
+              "description": "SMTP username"
+            },
+            "use_tls": {
+              "type": "boolean",
+              "default": true
+            },
+            "recipients": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "format": "email"
+              },
+              "minItems": 1,
+              "description": "Email recipients"
+            }
+          },
+          "if": {
+            "properties": {
+              "enabled": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "required": ["smtp_server", "recipients"]
+          }
+        },
+        "webhook": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": false
+            },
+            "url": {
+              "type": "string",
+              "format": "uri",
+              "description": "Webhook URL"
+            },
+            "method": {
+              "type": "string",
+              "enum": ["POST", "PUT"],
+              "default": "POST"
+            },
+            "headers": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              },
+              "description": "Additional HTTP headers"
+            },
+            "timeout": {
+              "type": "integer",
+              "minimum": 5,
+              "maximum": 60,
+              "default": 10,
+              "description": "Webhook timeout in seconds"
+            }
+          },
+          "if": {
+            "properties": {
+              "enabled": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "required": ["url"]
+          }
+        },
+        "slack": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": false
+            },
+            "webhook_url": {
+              "type": "string",
+              "format": "uri",
+              "description": "Slack webhook URL"
+            },
+            "channel": {
+              "type": "string",
+              "pattern": "^#[a-zA-Z0-9-_]+$",
+              "description": "Slack channel"
+            },
+            "username": {
+              "type": "string",
+              "default": "Proxmox Monitor",
+              "description": "Bot username"
+            }
+          },
+          "if": {
+            "properties": {
+              "enabled": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "required": ["webhook_url"]
+          }
+        }
+      }
+    },
+    "reporting": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "type": "string",
+          "enum": ["text", "json", "html"],
+          "default": "text"
+        },
+        "schedule": {
+          "type": "string",
+          "pattern": "^[0-9*,/-]+ [0-9*,/-]+ [0-9*,/-]+ [0-9*,/-]+ [0-9*,/-]+$",
+          "description": "Report schedule (cron format)"
+        },
+        "include": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "cluster_overview",
+              "node_status",
+              "vm_status",
+              "storage_status",
+              "backup_status",
+              "resource_trends"
+            ]
+          },
+          "uniqueItems": true,
+          "default": ["cluster_overview", "node_status", "vm_status"]
+        }
+      }
+    }
+  }
+}

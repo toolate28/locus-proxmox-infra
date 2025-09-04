@@ -1,0 +1,177 @@
+name: Provision Infrastructure
+
+on:
+  workflow_dispatch:
+    inputs:
+      vm_name:
+        description: 'VM Name to provision'
+        required: true
+        type: string
+      vm_cores:
+        description: 'Number of CPU cores'
+        required: false
+        default: '2'
+        type: string
+      vm_memory:
+        description: 'Memory in MB'
+        required: false
+        default: '2048'
+        type: string
+      vm_disk:
+        description: 'Disk size in GB'
+        required: false
+        default: '20'
+        type: string
+      dry_run:
+        description: 'Dry run mode (no actual provisioning)'
+        required: false
+        default: true
+        type: boolean
+
+env:
+  PROXMOX_HOST: ${{ secrets.PROXMOX_HOST }}
+  PROXMOX_PORT: ${{ secrets.PROXMOX_PORT }}
+  
+jobs:
+  validate:
+    name: Validate Provisioning Request
+    runs-on: ubuntu-latest
+    
+    outputs:
+      vm_name: ${{ steps.validate.outputs.vm_name }}
+      vm_cores: ${{ steps.validate.outputs.vm_cores }}
+      vm_memory: ${{ steps.validate.outputs.vm_memory }}
+      vm_disk: ${{ steps.validate.outputs.vm_disk }}
+      
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Validate inputs
+      id: validate
+      run: |
+        # Validate VM name
+        VM_NAME="${{ github.event.inputs.vm_name }}"
+        if [[ ! "$VM_NAME" =~ ^[a-zA-Z0-9-]+$ ]]; then
+          echo "Error: VM name must contain only alphanumeric characters and hyphens"
+          exit 1
+        fi
+        
+        # Validate numeric inputs
+        CORES="${{ github.event.inputs.vm_cores }}"
+        MEMORY="${{ github.event.inputs.vm_memory }}"
+        DISK="${{ github.event.inputs.vm_disk }}"
+        
+        if ! [[ "$CORES" =~ ^[0-9]+$ ]] || [ "$CORES" -lt 1 ] || [ "$CORES" -gt 32 ]; then
+          echo "Error: CPU cores must be a number between 1 and 32"
+          exit 1
+        fi
+        
+        if ! [[ "$MEMORY" =~ ^[0-9]+$ ]] || [ "$MEMORY" -lt 512 ] || [ "$MEMORY" -gt 32768 ]; then
+          echo "Error: Memory must be a number between 512 and 32768 MB"
+          exit 1
+        fi
+        
+        if ! [[ "$DISK" =~ ^[0-9]+$ ]] || [ "$DISK" -lt 10 ] || [ "$DISK" -gt 500 ]; then
+          echo "Error: Disk size must be a number between 10 and 500 GB"
+          exit 1
+        fi
+        
+        echo "vm_name=$VM_NAME" >> $GITHUB_OUTPUT
+        echo "vm_cores=$CORES" >> $GITHUB_OUTPUT
+        echo "vm_memory=$MEMORY" >> $GITHUB_OUTPUT
+        echo "vm_disk=$DISK" >> $GITHUB_OUTPUT
+        
+    - name: Check resource availability
+      run: |
+        echo "Checking resource availability (placeholder)..."
+        ./scripts/resource_check.sh
+        
+  provision:
+    name: Provision VM
+    runs-on: ubuntu-latest
+    needs: validate
+    if: github.event.inputs.dry_run == 'false'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Proxmox CLI tools
+      run: |
+        # Placeholder for Proxmox CLI setup
+        echo "Setting up Proxmox CLI tools..."
+        echo "This would install and configure pvesh or other Proxmox tools"
+        
+    - name: Provision VM
+      run: |
+        ./scripts/vm_provision.sh \
+          --name "${{ needs.validate.outputs.vm_name }}" \
+          --cores "${{ needs.validate.outputs.vm_cores }}" \
+          --memory "${{ needs.validate.outputs.vm_memory }}" \
+          --disk "${{ needs.validate.outputs.vm_disk }}"
+          
+    - name: Wait for VM to be ready
+      run: |
+        echo "Waiting for VM to be ready..."
+        # Placeholder for VM readiness check
+        sleep 30
+        
+    - name: Generate status report
+      run: |
+        ./scripts/status_report.sh --vms --format json --output vm-status.json
+        
+    - name: Upload status report
+      uses: actions/upload-artifact@v4
+      with:
+        name: vm-status-report
+        path: vm-status.json
+        
+  dry_run:
+    name: Dry Run Provision
+    runs-on: ubuntu-latest
+    needs: validate
+    if: github.event.inputs.dry_run == 'true'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Simulate VM provisioning
+      run: |
+        echo "=== DRY RUN MODE ==="
+        echo "VM would be provisioned with the following configuration:"
+        echo "Name: ${{ needs.validate.outputs.vm_name }}"
+        echo "Cores: ${{ needs.validate.outputs.vm_cores }}"
+        echo "Memory: ${{ needs.validate.outputs.vm_memory }} MB"
+        echo "Disk: ${{ needs.validate.outputs.vm_disk }} GB"
+        echo ""
+        echo "Running provision script in dry-run mode..."
+        
+        # Run the provision script to show what would be executed
+        echo "DRY_RUN=true" >> $GITHUB_ENV
+        ./scripts/vm_provision.sh \
+          --name "${{ needs.validate.outputs.vm_name }}" \
+          --cores "${{ needs.validate.outputs.vm_cores }}" \
+          --memory "${{ needs.validate.outputs.vm_memory }}" \
+          --disk "${{ needs.validate.outputs.vm_disk }}"
+          
+  notify:
+    name: Notify Result
+    runs-on: ubuntu-latest
+    needs: [validate, provision, dry_run]
+    if: always()
+    
+    steps:
+    - name: Notify success
+      if: ${{ success() }}
+      run: |
+        echo "VM provisioning workflow completed successfully"
+        echo "VM Name: ${{ needs.validate.outputs.vm_name }}"
+        echo "Mode: ${{ github.event.inputs.dry_run == 'true' && 'Dry Run' || 'Production' }}"
+        
+    - name: Notify failure
+      if: ${{ failure() }}
+      run: |
+        echo "VM provisioning workflow failed"
+        echo "Please check the logs for details"

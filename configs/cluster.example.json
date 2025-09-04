@@ -1,0 +1,75 @@
+{
+  "cluster_name": "locus-proxmox",
+  "nodes": [
+    {
+      "name": "pve01",
+      "ip": "192.168.1.10",
+      "role": "master",
+      "specs": {
+        "cpu_cores": 16,
+        "memory_gb": 64,
+        "storage_gb": 500
+      }
+    },
+    {
+      "name": "pve02",
+      "ip": "192.168.1.11",
+      "role": "worker",
+      "specs": {
+        "cpu_cores": 16,
+        "memory_gb": 64,
+        "storage_gb": 500
+      }
+    },
+    {
+      "name": "pve03",
+      "ip": "192.168.1.12",
+      "role": "worker",
+      "specs": {
+        "cpu_cores": 16,
+        "memory_gb": 64,
+        "storage_gb": 500
+      }
+    }
+  ],
+  "network": {
+    "cluster_network": "192.168.1.0/24",
+    "migration_network": "192.168.2.0/24"
+  },
+  "storage": [
+    {
+      "id": "local-lvm",
+      "type": "lvmthin",
+      "path": "/dev/pve/data",
+      "content": ["images", "rootdir"],
+      "shared": false
+    },
+    {
+      "id": "shared-nfs",
+      "type": "nfs",
+      "path": "192.168.1.100:/volume1/proxmox",
+      "content": ["images", "rootdir", "backup", "iso", "vztmpl"],
+      "shared": true
+    }
+  ],
+  "backup": {
+    "schedule": "0 2 * * *",
+    "retention": {
+      "daily": 7,
+      "weekly": 4,
+      "monthly": 3
+    },
+    "storage": "shared-nfs"
+  },
+  "monitoring": {
+    "thresholds": {
+      "cpu": 80,
+      "memory": 85,
+      "storage": 90
+    },
+    "alerts": {
+      "email": ["admin@example.com"],
+      "webhook": "https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK"
+    }
+  }
+}
