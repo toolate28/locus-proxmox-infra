@@ -1,0 +1,91 @@
+{
+  "copilot_space": {
+    "status": "active",
+    "version": "1.0.0",
+    "last_updated": "2024-09-04T16:23:00Z",
+    "ref_tag_prefix": "LOCUS"
+  },
+  "agents": {
+    "claude_pro": {
+      "ref_tag": "LOCUS-CLAUDE-001",
+      "status": "registered",
+      "capabilities": [
+        "code_analysis",
+        "documentation_generation",
+        "infrastructure_planning",
+        "automation_scripting",
+        "security_review"
+      ],
+      "api_endpoint": "https://api.anthropic.com/v1",
+      "auth_method": "github_secret:CLAUDE_API_KEY",
+      "heartbeat_interval": 60,
+      "last_heartbeat": null,
+      "handover_available": false,
+      "contact": "claude-agent@locus.internal"
+    },
+    "perplexity_pro": {
+      "ref_tag": "LOCUS-PERPLEXITY-001",
+      "status": "registered",
+      "capabilities": [
+        "research",
+        "real_time_data",
+        "infrastructure_monitoring",
+        "report_generation",
+        "trend_analysis",
+        "freshness_validation"
+      ],
+      "api_endpoint": "https://api.perplexity.ai",
+      "auth_method": "github_secret:PERPLEXITY_API_KEY",
+      "heartbeat_interval": 60,
+      "last_heartbeat": null,
+      "handover_available": false,
+      "contact": "perplexity-agent@locus.internal"
+    },
+    "proton_lumo": {
+      "ref_tag": "LOCUS-LUMO-001",
+      "status": "registered",
+      "capabilities": [
+        "secure_communications",
+        "encrypted_storage",
+        "vpn_management",
+        "privacy_enforcement",
+        "secure_tunneling"
+      ],
+      "api_endpoint": "https://lumo.proton.me/api",
+      "auth_method": "github_secret:PROTON_LUMO_TOKEN",
+      "instance_id_secret": "github_secret:LUMO_INSTANCE_ID",
+      "heartbeat_interval": 60,
+      "last_heartbeat": null,
+      "handover_available": false,
+      "contact": "lumo-agent@locus.internal"
+    }
+  },
+  "resource_polling": {
+    "interval": 300,
+    "enabled": true,
+    "targets": [
+      "pve_hosts",
+      "pbs_vms",
+      "pms_containers",
+      "cloud_resources"
+    ]
+  },
+  "ref_tagging": {
+    "enabled": true,
+    "enforce_on_jobs": true,
+    "enforce_on_artifacts": true,
+    "generator_endpoint": "/automation/generate_ref_tag.sh"
+  },
+  "handover_flow": {
+    "enabled": true,
+    "notification_method": "webhook",
+    "audit_enabled": true,
+    "marker_directory": "/handover"
+  },
+  "security": {
+    "secrets_in_github": true,
+    "least_privilege": true,
+    "rotation_enabled": true,
+    "audit_logging": true
+  }
+}

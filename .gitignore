@@ -1,0 +1,67 @@
+# Temporary files and build artifacts
+/tmp/
+*.tmp
+*.log
+
+# Node modules and package files
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# REF tag counter and audit files (these are temporary)
+/tmp/locus_ref_counter
+/tmp/locus_ref_audit.log
+/tmp/locus_*.json
+/tmp/locus_*.md
+
+# QR code generated images
+qr.png
+*.qr.png
+
+# Backup files
+*.bak
+*.backup
+
+# Environment files (should use GitHub Secrets instead)
+.env
+.env.local
+.env.production
+
+# Compiled binaries
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Test coverage
+coverage/
+*.cover
+.coverage
+.coverage.*
+
+# Documentation build
+_build/
+.doctrees/
