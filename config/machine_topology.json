@@ -1,0 +1,60 @@
+{
+  "ref_tag": "LOCUS-FORK-A-001",
+  "topology_type": "two_machine_coordination",
+  "created_at": "2025-09-05T01:41:00Z",
+  "machines": {
+    "core_machine": {
+      "role": "primary_coordinator",
+      "hostname": "locus-core",
+      "ip_address": "192.168.1.100",
+      "resource_limits": {
+        "max_memory": "2GB",
+        "max_cpu_cores": 2,
+        "max_disk": "20GB"
+      },
+      "services": [
+        "ref_tag_generator",
+        "coordination_manager", 
+        "resource_monitor",
+        "agent_registry"
+      ],
+      "sync_endpoints": {
+        "ref_state": "/tmp/locus_ref_state/",
+        "handover": "/tmp/locus_handover/",
+        "coordination": "/tmp/locus_coordination/"
+      }
+    },
+    "experimental_machine": {
+      "role": "test_executor",
+      "hostname": "locus-experimental",
+      "ip_address": "192.168.1.101",
+      "resource_limits": {
+        "max_memory": "12GB",
+        "max_cpu_cores": 8,
+        "max_disk": "100GB"
+      },
+      "services": [
+        "test_execution",
+        "data_collection",
+        "performance_monitoring"
+      ],
+      "sync_endpoints": {
+        "ref_state": "/tmp/locus_ref_state/",
+        "handover": "/tmp/locus_handover/",
+        "coordination": "/tmp/locus_coordination/"
+      }
+    }
+  },
+  "coordination_config": {
+    "sync_interval": 10,
+    "heartbeat_timeout": 30,
+    "network_recovery_timeout": 120,
+    "ref_tag_propagation_timeout": 10
+  },
+  "test_scenarios": [
+    "ref_tag_persistence",
+    "agent_handover",
+    "resource_constraint_respect", 
+    "failure_recovery"
+  ]
+}
