@@ -172,14 +172,6 @@
     "*.sh": "shellscript"
   },
   "json.schemas": [
-    {
-      "fileMatch": ["context/AGENT_STATUS.json"],
-      "url": "./schemas/agent-status-schema.json"
-    },
-    {
-      "fileMatch": ["config/resource_config.json"],
-      "url": "./schemas/resource-config-schema.json"
-    }
   ],
   "shellcheck.enable": true,
   "shellcheck.run": "onSave",
