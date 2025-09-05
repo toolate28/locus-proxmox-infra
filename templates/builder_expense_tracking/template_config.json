@@ -1,0 +1,71 @@
+{
+  "ref_tag": "LOCUS-TEMPLATE-BUILDER-001",
+  "template_type": "builder_expense_tracking",
+  "created_at": "2025-09-05T01:49:00Z",
+  "description": "Expense tracking and project cost management for construction/renovation projects",
+  "use_case": "Real builder workflow for tracking material costs, labor, permits, and project profitability",
+  "target_users": ["independent_contractors", "small_construction_companies", "renovation_specialists"],
+  "workflow_steps": [
+    {
+      "step": 1,
+      "name": "project_setup",
+      "description": "Initialize new construction/renovation project",
+      "tools": ["spreadsheet", "receipt_scanner", "photo_capture"],
+      "automation": "Auto-generate project structure and cost categories"
+    },
+    {
+      "step": 2, 
+      "name": "expense_capture",
+      "description": "Record material purchases, labor costs, permits",
+      "tools": ["mobile_receipt_scanner", "voice_notes", "vendor_integration"],
+      "automation": "OCR receipt processing, vendor price lookup, tax calculation"
+    },
+    {
+      "step": 3,
+      "name": "progress_tracking",
+      "description": "Monitor project milestones and budget status",
+      "tools": ["gantt_charts", "budget_dashboard", "photo_timeline"],
+      "automation": "Budget variance alerts, milestone completion tracking"
+    },
+    {
+      "step": 4,
+      "name": "client_reporting", 
+      "description": "Generate client-facing progress and billing reports",
+      "tools": ["report_generator", "invoice_creator", "client_portal"],
+      "automation": "Automated progress reports, invoice generation, client notifications"
+    },
+    {
+      "step": 5,
+      "name": "profitability_analysis",
+      "description": "Analyze project profitability and identify cost optimization",
+      "tools": ["analytics_dashboard", "cost_comparison", "trend_analysis"],
+      "automation": "Profit margin calculation, cost trend analysis, optimization recommendations"
+    }
+  ],
+  "tool_integrations": {
+    "existing_tools": [
+      "QuickBooks (accounting)",
+      "Home Depot Pro (materials)",
+      "Lowe's Pro (materials)", 
+      "Square (payments)",
+      "Google Drive (file storage)",
+      "Slack (team communication)"
+    ],
+    "coordination_approach": "integrate_not_replace",
+    "api_connections": ["accounting_sync", "vendor_catalogs", "payment_processing"]
+  },
+  "template_files": [
+    "project_setup_checklist.md",
+    "expense_categories_config.json", 
+    "automation_scripts/receipt_processor.py",
+    "automation_scripts/budget_monitor.py",
+    "templates/client_report.html",
+    "templates/invoice_template.pdf"
+  ],
+  "success_metrics": [
+    "time_saved_per_project",
+    "expense_tracking_accuracy",
+    "client_satisfaction_score", 
+    "project_profitability_improvement"
+  ]
+}
