@@ -1,0 +1,71 @@
+{
+  "ref_tag": "LOCUS-TEMPLATE-HOUSEHOLD-001",
+  "template_type": "household_management",
+  "created_at": "2025-09-05T01:49:00Z",
+  "description": "Comprehensive household management system for single parents and busy families",
+  "use_case": "Real single parent workflow for managing children's schedules, household tasks, finances, and family coordination",
+  "target_users": ["single_parents", "working_parents", "large_families", "caregivers"],
+  "workflow_steps": [
+    {
+      "step": 1,
+      "name": "family_setup",
+      "description": "Configure family members, schedules, and responsibilities",
+      "tools": ["calendar_sync", "contact_management", "responsibility_tracker"],
+      "automation": "Auto-sync school calendars, generate age-appropriate chore lists"
+    },
+    {
+      "step": 2,
+      "name": "schedule_coordination",
+      "description": "Manage activities, appointments, and commitments for all family members",
+      "tools": ["shared_calendar", "activity_tracker", "carpool_coordinator"],
+      "automation": "Conflict detection, reminder notifications, carpool optimization"
+    },
+    {
+      "step": 3,
+      "name": "household_tasks",
+      "description": "Track cleaning, maintenance, and daily household responsibilities",
+      "tools": ["chore_tracker", "maintenance_scheduler", "inventory_manager"],
+      "automation": "Rotating chore assignments, maintenance reminders, shopping list generation"
+    },
+    {
+      "step": 4,
+      "name": "financial_coordination",
+      "description": "Manage household budget, expenses, and family financial goals", 
+      "tools": ["budget_tracker", "expense_monitor", "savings_goals"],
+      "automation": "Expense categorization, budget alerts, savings progress tracking"
+    },
+    {
+      "step": 5,
+      "name": "emergency_preparedness",
+      "description": "Maintain emergency contacts, plans, and important document access",
+      "tools": ["emergency_contacts", "document_vault", "communication_tree"],
+      "automation": "Emergency notification system, document backup, contact verification"
+    }
+  ],
+  "tool_integrations": {
+    "existing_tools": [
+      "Google Calendar (scheduling)",
+      "Mint/YNAB (budgeting)",
+      "Cozi (family organization)",
+      "Remind (school communication)",
+      "Venmo (payment splitting)",
+      "Amazon (household supplies)"
+    ],
+    "coordination_approach": "integrate_not_replace",
+    "api_connections": ["calendar_sync", "banking_integration", "school_systems"]
+  },
+  "template_files": [
+    "family_setup_wizard.md",
+    "household_config.json",
+    "automation_scripts/schedule_sync.py",
+    "automation_scripts/chore_rotation.py", 
+    "templates/weekly_family_report.html",
+    "templates/emergency_contact_card.pdf"
+  ],
+  "success_metrics": [
+    "family_stress_reduction",
+    "scheduling_conflict_reduction",
+    "household_task_completion_rate",
+    "financial_goal_achievement"
+  ]
+}

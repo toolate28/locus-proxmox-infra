@@ -1,0 +1,71 @@
+{
+  "ref_tag": "LOCUS-TEMPLATE-COMMUNITY-001",
+  "template_type": "community_organization",
+  "created_at": "2025-09-05T01:49:00Z",
+  "description": "Community group coordination for neighborhood associations, clubs, and volunteer organizations",
+  "use_case": "Real community group workflow for managing events, volunteers, communications, and resources",
+  "target_users": ["neighborhood_associations", "volunteer_groups", "community_clubs", "nonprofit_organizations"],
+  "workflow_steps": [
+    {
+      "step": 1,
+      "name": "community_setup",
+      "description": "Initialize community group structure and member onboarding",
+      "tools": ["member_directory", "group_charter", "communication_channels"],
+      "automation": "Auto-generate member welcome packages, directory updates"
+    },
+    {
+      "step": 2,
+      "name": "event_coordination",
+      "description": "Plan, organize, and execute community events and meetings",
+      "tools": ["event_planner", "volunteer_scheduler", "resource_booking"],
+      "automation": "Event registration, volunteer matching, reminder notifications"
+    },
+    {
+      "step": 3,
+      "name": "volunteer_management",
+      "description": "Coordinate volunteer activities, track hours, and recognize contributions",
+      "tools": ["volunteer_portal", "hour_tracking", "recognition_system"],
+      "automation": "Skill-based volunteer matching, hour logging, achievement badges"
+    },
+    {
+      "step": 4,
+      "name": "resource_sharing",
+      "description": "Manage shared community resources, equipment, and spaces",
+      "tools": ["resource_library", "booking_system", "maintenance_tracker"],
+      "automation": "Availability calendars, usage statistics, maintenance scheduling"
+    },
+    {
+      "step": 5,
+      "name": "community_engagement",
+      "description": "Foster communication, feedback, and collaborative decision-making",
+      "tools": ["discussion_forums", "voting_system", "newsletter_generator"],
+      "automation": "Engagement metrics, voting notifications, newsletter compilation"
+    }
+  ],
+  "tool_integrations": {
+    "existing_tools": [
+      "Facebook Groups (social)",
+      "Nextdoor (neighborhood)",
+      "Eventbrite (event management)",
+      "SignUpGenius (volunteer coordination)",
+      "Mailchimp (newsletters)",
+      "Zoom (virtual meetings)"
+    ],
+    "coordination_approach": "integrate_not_replace",
+    "api_connections": ["social_media_sync", "email_marketing", "video_conferencing"]
+  },
+  "template_files": [
+    "community_setup_guide.md",
+    "governance_config.json",
+    "automation_scripts/event_coordinator.py",
+    "automation_scripts/volunteer_matcher.py",
+    "templates/community_newsletter.html",
+    "templates/event_summary_report.pdf"
+  ],
+  "success_metrics": [
+    "member_engagement_rate",
+    "event_participation_levels",
+    "volunteer_retention_rate",
+    "community_satisfaction_score"
+  ]
+}

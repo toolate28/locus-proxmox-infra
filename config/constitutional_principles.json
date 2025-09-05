@@ -1,0 +1,68 @@
+{
+  "ref_tag": "LOCUS-FORK-B-001",
+  "constitution_type": "distributed_infrastructure_principles",
+  "created_at": "2025-09-05T01:45:00Z",
+  "principles": {
+    "resource_constraint_enforcement": {
+      "description": "System must halt operations that would exceed resource limits",
+      "core_machine_memory_limit": "2GB",
+      "core_machine_cpu_limit": 2,
+      "experimental_machine_memory_limit": "12GB",
+      "experimental_machine_cpu_limit": 8,
+      "enforcement": "automatic_halt",
+      "threshold_warning": 0.8,
+      "threshold_critical": 0.95
+    },
+    "cross_machine_principle_propagation": {
+      "description": "Principle violations on any machine trigger system-wide response",
+      "propagation_timeout": 5,
+      "response_actions": ["alert", "throttle", "halt"],
+      "escalation_levels": ["warning", "critical", "emergency"],
+      "requires_confirmation": false
+    },
+    "expert_authority_preservation": {
+      "description": "System requires human approval for high-impact decisions",
+      "high_impact_thresholds": {
+        "resource_allocation": "> 50% of available",
+        "configuration_changes": "affects > 3 services",
+        "emergency_actions": "any system halt"
+      },
+      "approval_timeout": 300,
+      "fallback_action": "safe_default"
+    },
+    "transparency_maintenance": {
+      "description": "All decisions logged with complete reasoning",
+      "log_level": "detailed",
+      "include_reasoning": true,
+      "include_alternatives": true,
+      "retention_period": "30 days",
+      "audit_trail": true
+    },
+    "ethical_behavior_under_pressure": {
+      "description": "System maintains ethical behavior even under resource pressure",
+      "no_data_corruption": true,
+      "no_security_bypass": true,
+      "preserve_user_privacy": true,
+      "graceful_degradation": true
+    },
+    "democratic_decision_making": {
+      "description": "Multi-agent decisions follow democratic principles",
+      "consensus_threshold": 0.67,
+      "minimum_participants": 2,
+      "tie_breaking": "human_arbitration",
+      "veto_power": ["security_violations", "resource_exhaustion"]
+    }
+  },
+  "monitoring_config": {
+    "check_interval": 10,
+    "violation_response_time": 5,
+    "emergency_halt_timeout": 30,
+    "human_approval_timeout": 300
+  },
+  "enforcement_mechanisms": {
+    "automatic_throttling": true,
+    "emergency_halt": true,
+    "human_escalation": true,
+    "cross_machine_coordination": true
+  }
+}
