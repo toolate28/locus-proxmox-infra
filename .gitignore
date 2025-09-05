@@ -16,7 +16,8 @@ __pycache__/
 *.so
 
 # IDE and editor files
-.vscode/
+.vscode/*
+!.vscode/settings.json
 .idea/
 *.swp
 *.swo
