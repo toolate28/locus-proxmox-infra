@@ -10,16 +10,23 @@ import datetime
 import subprocess
 import psutil
 from pathlib import Path
+import os
 
-class PrincipleTracker:
-    def __init__(self, config_file="/home/runner/work/locus-proxmox-infra/locus-proxmox-infra/config/constitutional_principles.json"):
-        self.config_file = config_file
+    def __init__(self, config_file=None):
+        if config_file is not None:
+            self.config_file = config_file
+        else:
+            # Try environment variable, then fallback to relative path
+            self.config_file = os.environ.get(
+                "LOCUS_CONSTITUTION_CONFIG",
+                str(Path(__file__).parent.parent / "config" / "constitutional_principles.json")
+            )
         self.monitoring_active = False
         self.violations = []
         self.last_check = None
         
         # Load constitutional principles
-        with open(config_file, 'r') as f:
+        with open(self.config_file, 'r') as f:
             self.constitution = json.load(f)
             
         self.check_interval = self.constitution["monitoring_config"]["check_interval"]
