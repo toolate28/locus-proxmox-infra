@@ -1,0 +1,60 @@
+name: 💡 Feature Request
+description: Suggest a new feature or enhancement for Project Locus
+title: "[FEATURE] "
+labels: ["enhancement", "needs-triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # 💡 Feature Request
+        
+        Thanks for suggesting a new feature! Your ideas help make Project Locus even better.
+
+  - type: input
+    id: ref-tag
+    attributes:
+      label: 🏷️ REF Tag
+      description: Generate a REF tag for this feature request
+      placeholder: "Run: ./automation/generate_ref_tag.sh feature 'brief-description'"
+    validations:
+      required: true
+
+  - type: textarea
+    id: feature-summary
+    attributes:
+      label: 🎯 Feature Summary
+      description: A clear and concise description of the feature you'd like to see
+      placeholder: Describe the feature in one or two sentences...
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem-statement
+    attributes:
+      label: 🔍 Problem Statement
+      description: What problem does this feature solve?
+      placeholder: |
+        Is your feature request related to a problem? Please describe.
+        A clear and concise description of what the problem is.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: 🎯 Component Area
+      description: Which area of Project Locus would this feature affect?
+      options:
+        - 🤖 Multi-Agent Coordination
+        - 🏗️ Infrastructure Automation
+        - 📊 Resource Monitoring
+        - 🔒 Security & Compliance
+        - 📚 Documentation
+        - 🚀 Installation & Setup
+        - 🔄 Agent Workflows
+        - 🏷️ REF Tag System
+        - Other (please specify)
+    validations:
+      required: true

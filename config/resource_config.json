@@ -1,0 +1,47 @@
+{
+  "resource_monitoring": {
+    "polling_interval": 300,
+    "endpoints": {
+      "pve_cluster": {
+        "api_endpoint": "https://pve.locus.internal:8006/api2/json",
+        "auth_method": "api_token",
+        "secret_ref": "github_secret:PVE_API_TOKEN",
+        "monitoring_targets": [
+          "nodes",
+          "vms",
+          "storage",
+          "cluster_status"
+        ]
+      },
+      "pbs_servers": {
+        "api_endpoint": "https://pbs.locus.internal:8007/api2/json",
+        "auth_method": "api_token",
+        "secret_ref": "github_secret:PBS_API_TOKEN",
+        "monitoring_targets": [
+          "backup_jobs",
+          "storage_usage",
+          "verify_status"
+        ]
+      },
+      "cloud_resources": {
+        "aws_cloudwatch": {
+          "region": "us-east-1",
+          "auth_method": "iam_role",
+          "secret_ref": "github_secret:AWS_ACCESS_KEY"
+        }
+      }
+    }
+  },
+  "ref_tagging": {
+    "prefix": "LOCUS",
+    "format": "{prefix}-{type}-{timestamp}-{counter}",
+    "mandatory_fields": ["ref_tag", "owner", "created_at"],
+    "audit_logging": true
+  },
+  "agent_heartbeat": {
+    "interval": 60,
+    "timeout": 120,
+    "retry_attempts": 3,
+    "notification_webhook": "https://hooks.locus.internal/agent-status"
+  }
+}

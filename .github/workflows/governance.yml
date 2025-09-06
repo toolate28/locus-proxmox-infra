@@ -1,0 +1,145 @@
+---
+name: Governance CI
+
+"on":
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  schedule:
+    - cron: '0 2 * * *'  # Daily at 2 AM UTC
+
+jobs:
+  secret-scan:
+    name: Secret Scanning
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
+
+  policy-validation:
+    name: Policy Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Validate REF tag compliance
+        run: |
+          echo "Checking REF tag compliance..."
+          # Check automation scripts have proper REF tag generation
+          if [ -f "automation/generate_ref_tag.sh" ]; then
+            echo "✓ REF tag generator found"
+            chmod +x automation/generate_ref_tag.sh
+            # Test REF tag generation
+            if ./automation/generate_ref_tag.sh test "governance-ci"; then
+              echo "✓ REF tag generation working"
+            else
+              echo "❌ REF tag generation failed"
+              exit 1
+            fi
+          else
+            echo "❌ REF tag generator missing"
+            exit 1
+          fi
+
+      - name: Validate documentation structure
+        run: |
+          echo "Checking documentation compliance..."
+          required_docs=("README.md" "docs/connector_guide.md" "docs/onboarding_playbook.md")
+          for doc in "${required_docs[@]}"; do
+            if [ -f "$doc" ]; then
+              echo "✓ $doc found"
+            else
+              echo "❌ $doc missing"
+              exit 1
+            fi
+          done
+
+      - name: Check script permissions
+        run: |
+          echo "Validating script permissions..."
+          find automation/ -name "*.sh" | while read script; do
+            if [ -x "$script" ]; then
+              echo "✓ $script is executable"
+            else
+              echo "❌ $script is not executable"
+              chmod +x "$script"
+              echo "Fixed permissions for $script"
+            fi
+          done
+
+  dependency-check:
+    name: Dependency Security Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check for hardcoded secrets
+        run: |
+          echo "Scanning for potential hardcoded secrets..."
+          # More refined search excluding documentation patterns
+          if grep -r -i -E "(password|token|key|secret|api[_-]?key)" \
+             --include="*.sh" --include="*.json" --exclude-dir=docs . | \
+             grep -v "secrets\." | grep -v "GITHUB_TOKEN" | \
+             grep -v "\${{" | grep -v "example" | grep -v "placeholder" | \
+             grep -v "auth_method" | grep -v "secret_ref" | \
+             grep -v "github_secret:" | grep -v "# " | \
+             grep -v "\$[A-Z_]*" | grep -E "=.*[a-zA-Z0-9]{10,}"; then
+            echo "❌ Potential hardcoded secrets found"
+            exit 1
+          else
+            echo "✓ No hardcoded secrets detected"
+          fi
+
+      - name: Validate automation scripts
+        run: |
+          echo "Validating automation script syntax..."
+          find automation/ -name "*.sh" | while read script; do
+            if bash -n "$script"; then
+              echo "✓ $script syntax valid"
+            else
+              echo "❌ $script has syntax errors"
+              exit 1
+            fi
+          done
+
+  compliance-report:
+    name: Generate Compliance Report
+    runs-on: ubuntu-latest
+    needs: [secret-scan, policy-validation, dependency-check]
+    if: always()
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Generate compliance report
+        run: |
+          echo "# Governance Compliance Report" > compliance-report.md
+          echo "" >> compliance-report.md
+          echo "**Date:** $(date -Iseconds)" >> compliance-report.md
+          echo "**Commit:** $GITHUB_SHA" >> compliance-report.md
+          echo "" >> compliance-report.md
+          echo "## Job Results" >> compliance-report.md
+          echo "- Secret Scan: ${{ needs.secret-scan.result }}" \
+            >> compliance-report.md
+          echo "- Policy Validation: ${{ needs.policy-validation.result }}" \
+            >> compliance-report.md
+          echo "- Dependency Check: ${{ needs.dependency-check.result }}" \
+            >> compliance-report.md
+
+      - name: Upload compliance report
+        uses: actions/upload-artifact@v4
+        with:
+          name: compliance-report
+          path: compliance-report.md
+          retention-days: 30

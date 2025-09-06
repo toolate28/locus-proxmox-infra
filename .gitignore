@@ -1,30 +1,16 @@
-# Environment and configuration files
-.env
-configs/*.env
-configs/cluster.json
-configs/monitoring.json
-
-# Log files
-*.log
-logs/
-
-# Temporary files
-*.tmp
-*.temp
+# Temporary files and build artifacts
 /tmp/
+*.tmp
+*.log
 
-# QR code outputs
-qr.png
-*.qr.png
+# Node modules and package files
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# Reports and artifacts
-*-report.json
-*-status.json
-reports/
-
-# Backup files
-*.bak
-*.backup
+# Python cache
+7
 
 # OS generated files
 .DS_Store
@@ -35,26 +21,37 @@ reports/
 ehthumbs.db
 Thumbs.db
 
-# IDE and editor files
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
+# REF tag counter and audit files (these are temporary)
+/tmp/locus_ref_counter
+/tmp/locus_ref_audit.log
+/tmp/locus_*.json
+/tmp/locus_*.md
 
-# Python cache (if using Python tools)
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-.Python
+# QR code generated images
+qr.png
+*.qr.png
 
-# Node modules (if using Node.js tools)
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# Backup files
+*.bak
+*.backup
 
-# Test output
-test-results/
+# Environment files (should use GitHub Secrets instead)
+.env
+.env.local
+.env.production
+
+# Compiled binaries
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Test coverage
 coverage/
+*.cover
+.coverage
+.coverage.*
+
+# Documentation build
+_build/
+.doctrees/
