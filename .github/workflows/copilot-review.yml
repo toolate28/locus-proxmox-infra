@@ -94,8 +94,14 @@ jobs:
       - name: Run ShellCheck validation
         run: |
           echo "Running ShellCheck on automation scripts..."
+          # Check if any .sh files exist before running shellcheck
+          sh_files=$(find automation/scripts/ scripts/ -name "*.sh")
+          if [ -z "$sh_files" ]; then
+            echo "No .sh files found in automation/scripts/ or scripts/. Skipping ShellCheck."
+            exit 0
+          fi
           # Allow warnings but fail on errors
-          shellcheck automation/scripts/*.sh scripts/*.sh || {
+          shellcheck $sh_files || {
             echo "❌ ShellCheck found critical issues"
             exit 1
           }
