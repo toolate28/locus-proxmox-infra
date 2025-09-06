@@ -43,7 +43,7 @@ CLAUDE HIGH REVIEW context/agent_config.json SECURITY-COMPLIANCE
 PERPLEXITY MEDIUM MONITOR proxmox-cluster STATUS-REPORT
 
 # Security audit directive
-LUMO HIGH AUDIT automation/scripts VULNERABILITY-SCAN
+LUMO HIGH AUDIT automation/ VULNERABILITY-SCAN
 ```
 
 ---
@@ -244,14 +244,14 @@ Primary Domain?
 
 ### Agent Invocation
 ```bash
-# Single agent task
+# Single agent task using existing scripts
 ./automation/invoke_agent.sh [AGENT] [PRIORITY] [TASK] [CONTEXT]
 
 # Multi-agent coordination
 ./automation/coordinate_agents.sh [LEAD_AGENT] [SUPPORT_AGENTS] [TASK] [CONTEXT]
 
-# Emergency escalation
-./automation/escalate_task.sh [TASK] [SEVERITY] [ALL_AGENTS]
+# Emergency halt for critical situations
+./automation/emergency_halt.sh --halt [REASON] [SEVERITY]
 ```
 
 ### Context Management
@@ -259,23 +259,23 @@ Primary Domain?
 # Capture current context
 ./automation/capture_context.sh [REF_TAG]
 
-# Share context between agents
-./automation/share_context.sh [FROM_AGENT] [TO_AGENT] [REF_TAG]
+# Sync reference state between systems
+./automation/sync_ref_state.sh --sync [TARGET]
 
-# Archive completed context
-./automation/archive_context.sh [REF_TAG] [OUTCOME]
+# Generate REF tags for traceability
+./automation/generate_ref_tag.sh [TYPE] [DESCRIPTION]
 ```
 
 ### Monitoring & Reporting
 ```bash
-# Agent status check
-./automation/agent_status.sh
+# Agent heartbeat status check
+./automation/heartbeat_monitor.sh
 
-# Performance metrics
-./automation/agent_metrics.sh [TIME_PERIOD]
+# Infrastructure resource check
+./automation/resource_check.sh
 
-# Generate coordination report
-./automation/coordination_report.sh [DATE_RANGE]
+# Generate comprehensive status report
+./automation/status_report.sh
 ```
 
 ---
@@ -304,9 +304,9 @@ Primary Domain?
 
 ### Common Issues
 1. **Agent Not Responding**
-   - Check agent status with `./automation/agent_status.sh`
+   - Check agent heartbeats with `./automation/heartbeat_monitor.sh`
    - Verify API credentials in GitHub Secrets
-   - Review recent error logs
+   - Review status reports for errors
 
 2. **Context Sharing Failures**
    - Ensure REF tags are properly formatted
@@ -319,7 +319,7 @@ Primary Domain?
    - Verify handover marker generation
 
 ### Emergency Procedures
-- **System-wide Agent Failure:** Execute `./automation/emergency_fallback.sh`
+- **System-wide Agent Failure:** Execute `./automation/emergency_halt.sh --halt "system-failure" critical`
 - **Security Incident:** Immediately invoke Lumo agent with CRITICAL priority
 - **Data Loss Risk:** Trigger backup verification with all agents
 

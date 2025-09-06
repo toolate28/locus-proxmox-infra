@@ -65,11 +65,11 @@ Claude agents in Project Locus follow standardized context protocols:
 # Capture current context for handover
 ./automation/capture_context.sh claude $REF_TAG
 
-# Share context with other agents
-./automation/share_context.sh claude perplexity $REF_TAG
+# Coordinate with other agents
+./automation/coordinate_agents.sh claude perplexity "task description"
 
-# Archive completed work
-./automation/archive_context.sh $REF_TAG "task-completed"
+# Use invoke_agent.sh for specific agent tasks
+./automation/invoke_agent.sh perplexity "research task" $REF_TAG
 ```
 
 ---
@@ -138,38 +138,39 @@ CLAUDE_SUPPORT="automation-scripts"
 
 ### Daily Tasks
 ```bash
-# Morning infrastructure review
-./automation/claude_daily_review.sh
+# Generate infrastructure status report
+./automation/status_report.sh
 
-# Check for pending documentation updates
-./automation/check_doc_updates.sh
+# Check resource availability
+./automation/resource_check.sh
 
-# Review overnight automation logs
-./automation/review_logs.sh --since="24h" --agent="claude"
+# Monitor agent heartbeats
+./automation/heartbeat_monitor.sh
 ```
 
 ### Weekly Tasks
 ```bash
-# Generate architecture review
-./automation/claude_arch_review.sh --weekly
+# Generate REF tag for weekly review
+REF_TAG=$(./automation/generate_ref_tag.sh task "weekly-claude-review")
 
-# Update documentation inventory
-./automation/doc_inventory.sh --update
+# Run freshness validation
+./automation/freshness_loop.sh
 
-# Performance analysis
-./automation/claude_performance.sh --weekly-report
+# Check for infrastructure updates needed
+./automation/resource_check.sh
 ```
 
 ### Monthly Tasks
 ```bash
-# Comprehensive system analysis
-./automation/claude_system_analysis.sh --comprehensive
+# Generate comprehensive status report
+REF_TAG=$(./automation/generate_ref_tag.sh task "monthly-comprehensive-review")
+./automation/status_report.sh
 
-# Technology trend analysis
-./automation/claude_tech_trends.sh --monthly
+# Run full freshness validation
+./automation/freshness_loop.sh
 
-# Documentation audit
-./automation/claude_doc_audit.sh --full
+# Check emergency halt status
+./automation/emergency_halt.sh --status
 ```
 
 ---
@@ -210,17 +211,14 @@ Agents can share access to Locus artifacts by generating a QR code that embeds a
 
 ### Advanced Context Sharing
 ```bash
-# Generate context package
-./automation/package_context.sh $REF_TAG > context.json
+# Generate context with capture_context.sh
+./automation/capture_context.sh $REF_TAG
 
-# Upload to temporary sharing service
-SHARE_URL=$(curl -X POST https://temp-share.example.com -d @context.json)
+# Use QR code generation for sharing
+./scripts/generate_qr.sh "https://locus.internal/context/$REF_TAG"
 
-# Generate QR code for easy sharing
-./scripts/generate_qr.sh "$SHARE_URL"
-
-# Notify receiving agent
-echo "Context available at: $SHARE_URL (QR: qr.png)"
+# Notify receiving agent via coordination system
+./automation/coordinate_agents.sh claude perplexity "context-transfer"
 ```
 
 See [docs/qr-share.md](docs/qr-share.md) for more details.
@@ -233,7 +231,7 @@ See [docs/qr-share.md](docs/qr-share.md) for more details.
 1. **API Rate Limits**
    - Implement exponential backoff
    - Use batch processing for multiple requests
-   - Monitor usage with `./automation/claude_usage.sh`
+   - Monitor usage through status reports: `./automation/status_report.sh`
 
 2. **Context Size Limits**
    - Summarize large contexts before handover
@@ -243,18 +241,18 @@ See [docs/qr-share.md](docs/qr-share.md) for more details.
 3. **Integration Failures**
    - Check API key validity
    - Verify network connectivity
-   - Review error logs in `/tmp/claude_errors.log`
+   - Review error logs and use emergency halt if needed
 
 ### Emergency Procedures
 ```bash
-# Fallback to simplified processing
-./automation/claude_fallback.sh
+# Use emergency halt for critical situations
+./automation/emergency_halt.sh --halt "critical-issue" high
 
-# Emergency context recovery
-./automation/recover_context.sh $REF_TAG
+# Capture current context for recovery
+./automation/capture_context.sh $REF_TAG
 
-# Manual intervention mode
-./automation/claude_manual.sh --intervention-required
+# Coordinate emergency response with other agents
+./automation/coordinate_agents.sh claude "all" "emergency-response"
 ```
 
 ---
@@ -269,14 +267,14 @@ See [docs/qr-share.md](docs/qr-share.md) for more details.
 
 ### Monitoring Commands
 ```bash
-# Real-time performance
-./automation/claude_monitor.sh --real-time
+# Real-time resource monitoring
+./automation/resource_check.sh
 
-# Generate performance report
-./automation/claude_report.sh --metrics --timeframe="7d"
+# Generate status report for performance analysis
+./automation/status_report.sh
 
-# Compare with baseline
-./automation/claude_benchmark.sh --compare-baseline
+# Check agent heartbeats for system health
+./automation/heartbeat_monitor.sh
 ```
 
 ---
@@ -291,26 +289,26 @@ Located in `context/claude_prompts/`:
 
 ### Integration Hooks
 ```bash
-# Pre-task hooks
-./automation/hooks/claude_pre_task.sh
+# Use existing automation scripts for integration
+./automation/invoke_agent.sh claude "pre-task-check" $REF_TAG
 
-# Post-task validation
-./automation/hooks/claude_post_task.sh
+# Post-task validation via status reports
+./automation/status_report.sh
 
-# Continuous learning updates
-./automation/hooks/claude_learning.sh
+# Continuous monitoring with heartbeat
+./automation/heartbeat_monitor.sh
 ```
 
 ### Advanced Context Management
 ```bash
-# Semantic context indexing
-./automation/claude_index_context.sh
+# Use capture_context.sh for advanced context handling
+./automation/capture_context.sh $REF_TAG
 
-# Context pattern recognition
-./automation/claude_pattern_analysis.sh
+# Coordinate context sharing between agents
+./automation/coordinate_agents.sh claude perplexity "context-analysis"
 
-# Predictive context preparation
-./automation/claude_predict_context.sh
+# Sync reference state for consistency
+./automation/sync_ref_state.sh --sync
 ```
 
 ---
