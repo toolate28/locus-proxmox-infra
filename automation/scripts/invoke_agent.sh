@@ -4,13 +4,15 @@
 
 set -e
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 AGENT="${1:-claude}"
 PRIORITY="${2:-MEDIUM}"
 TASK="${3:-status-check}"
 CONTEXT="${4:-default}"
 
 # Generate REF tag for this invocation
-REF_TAG=$(./automation/generate_ref_tag.sh task "agent-invoke-${AGENT}")
+REF_TAG=$("$SCRIPT_DIR/generate_ref_tag.sh" task "agent-invoke-${AGENT}")
 
 echo "=== LOCUS AGENT INVOCATION ==="
 echo "Agent: $AGENT"
@@ -58,7 +60,7 @@ esac
 
 # Capture current system state
 echo "Capturing system state..."
-./automation/status_report.sh > "/tmp/locus_state_${REF_TAG}.md"
+"$SCRIPT_DIR/status_report.sh" > "/tmp/locus_state_${REF_TAG}.md"
 
 # Create task context file
 cat > "/tmp/locus_task_${REF_TAG}.json" << EOF

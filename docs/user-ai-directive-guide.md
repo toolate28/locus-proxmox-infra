@@ -154,22 +154,22 @@ Unified Deliverable
 ### For Infrastructure Tasks
 ```bash
 # Generate REF tag first
-REF_TAG=$(./automation/generate_ref_tag.sh task "infrastructure-update")
+REF_TAG=$(./automation/scripts/generate_ref_tag.sh task "infrastructure-update")
 
 # Document current state
-./automation/status_report.sh > /tmp/pre-change-state.md
+./automation/scripts/status_report.sh > /tmp/pre-change-state.md
 
 # Execute with appropriate agent
 [AGENT] [PRIORITY] [ACTION] [CONTEXT] [REF:$REF_TAG]
 
 # Document post-change state
-./automation/status_report.sh > /tmp/post-change-state.md
+./automation/scripts/status_report.sh > /tmp/post-change-state.md
 ```
 
 ### For Documentation Tasks
 ```bash
 # Generate documentation REF
-REF_TAG=$(./automation/generate_ref_tag.sh doc "user-guide-update")
+REF_TAG=$(./automation/scripts/generate_ref_tag.sh doc "user-guide-update")
 
 # Claude agent directive for documentation
 CLAUDE MEDIUM UPDATE docs/user-guide.md COMPREHENSIVE-REVIEW [REF:$REF_TAG]
@@ -181,10 +181,10 @@ PERPLEXITY LOW RESEARCH "current best practices" CONTEXT-ENHANCEMENT [REF:$REF_T
 ### For Security Tasks
 ```bash
 # Security audit REF
-REF_TAG=$(./automation/generate_ref_tag.sh security "weekly-audit")
+REF_TAG=$(./automation/scripts/generate_ref_tag.sh security "weekly-audit")
 
 # Lumo agent directive
-LUMO HIGH AUDIT automation/ VULNERABILITY-SCAN [REF:$REF_TAG]
+LUMO HIGH AUDIT automation/scripts VULNERABILITY-SCAN [REF:$REF_TAG]
 
 # Follow-up with Claude for remediation
 CLAUDE HIGH REMEDIATE security-findings IMPLEMENTATION-PLAN [REF:$REF_TAG]
@@ -244,38 +244,38 @@ Primary Domain?
 
 ### Agent Invocation
 ```bash
-# Single agent task
-./automation/invoke_agent.sh [AGENT] [PRIORITY] [TASK] [CONTEXT]
+# Single agent task using existing scripts
+./automation/scripts/invoke_agent.sh [AGENT] [PRIORITY] [TASK] [CONTEXT]
 
 # Multi-agent coordination
-./automation/coordinate_agents.sh [LEAD_AGENT] [SUPPORT_AGENTS] [TASK] [CONTEXT]
+./automation/scripts/coordinate_agents.sh [LEAD_AGENT] [SUPPORT_AGENTS] [TASK] [CONTEXT]
 
-# Emergency escalation
-./automation/escalate_task.sh [TASK] [SEVERITY] [ALL_AGENTS]
+# Emergency halt for critical situations
+./automation/scripts/emergency_halt.sh --halt [REASON] [SEVERITY]
 ```
 
 ### Context Management
 ```bash
 # Capture current context
-./automation/capture_context.sh [REF_TAG]
+./automation/scripts/capture_context.sh [REF_TAG]
 
-# Share context between agents
-./automation/share_context.sh [FROM_AGENT] [TO_AGENT] [REF_TAG]
+# Sync reference state between systems
+./automation/scripts/sync_ref_state.sh --sync [TARGET]
 
-# Archive completed context
-./automation/archive_context.sh [REF_TAG] [OUTCOME]
+# Generate REF tags for traceability
+./automation/scripts/generate_ref_tag.sh [TYPE] [DESCRIPTION]
 ```
 
 ### Monitoring & Reporting
 ```bash
-# Agent status check
-./automation/agent_status.sh
+# Agent heartbeat status check
+./automation/scripts/heartbeat_monitor.sh
 
-# Performance metrics
-./automation/agent_metrics.sh [TIME_PERIOD]
+# Infrastructure resource check
+./automation/scripts/resource_check.sh
 
-# Generate coordination report
-./automation/coordination_report.sh [DATE_RANGE]
+# Generate comprehensive status report
+./automation/scripts/status_report.sh
 ```
 
 ---
@@ -304,9 +304,9 @@ Primary Domain?
 
 ### Common Issues
 1. **Agent Not Responding**
-   - Check agent status with `./automation/agent_status.sh`
+   - Check agent heartbeats with `./automation/scripts/heartbeat_monitor.sh`
    - Verify API credentials in GitHub Secrets
-   - Review recent error logs
+   - Review status reports for errors
 
 2. **Context Sharing Failures**
    - Ensure REF tags are properly formatted
@@ -319,7 +319,7 @@ Primary Domain?
    - Verify handover marker generation
 
 ### Emergency Procedures
-- **System-wide Agent Failure:** Execute `./automation/emergency_fallback.sh`
+- **System-wide Agent Failure:** Execute `./automation/scripts/emergency_halt.sh --halt "system-failure" critical`
 - **Security Incident:** Immediately invoke Lumo agent with CRITICAL priority
 - **Data Loss Risk:** Trigger backup verification with all agents
 
