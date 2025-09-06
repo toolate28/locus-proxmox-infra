@@ -40,196 +40,20 @@
       "command": "mcp-kv",
       "args": [],
       "env": {
-        "KV_PATH": "${workspaceFolder}/.locus/state.db"
+        "KV_PATH": "/tmp/locus_kv_state.db"
       },
       "tools": ["kv_get", "kv_set", "kv_delete"]
     }
   },
-
-  "copilot.enable": true,
-  "copilot.inlineSuggest.enable": true,
-  "copilot.chat.enable": true,
-
-  "locus": {
-    "project": {
-      "name": "Project Locus Multi-Agent Infrastructure",
-      "type": "infrastructure_automation",
-      "multi_agent_orchestration": true,
-      "ref_tag_system": "LOCUS-{TYPE}{TIMESTAMP}-{COUNTER}"
-    },
-    
-    "agents": {
-      "claude_pro": {
-        "ref_tag": "LOCUS-CLAUDE-001",
-        "status": "registered",
-        "capabilities": [
-          "code_analysis",
-          "documentation",
-          "infrastructure_planning", 
-          "security_review"
-        ],
-        "api_endpoint": "https://api.anthropic.com/v1",
-        "auth_secret": "CLAUDE_API_KEY"
-      },
-      "perplexity_pro": {
-        "ref_tag": "LOCUS-PERPLEXITY-001",
-        "status": "registered",
-        "capabilities": [
-          "research",
-          "real_time_data",
-          "monitoring_reports",
-          "trend_analysis"
-        ],
-        "api_endpoint": "https://api.perplexity.ai",
-        "auth_secret": "PERPLEXITY_API_KEY"
-      },
-      "proton_lumo": {
-        "ref_tag": "LOCUS-LUMO-001", 
-        "status": "registered",
-        "capabilities": [
-          "secure_communications",
-          "encrypted_storage",
-          "vpn_management"
-        ],
-        "api_endpoint": "https://lumo.proton.me/api",
-        "auth_secret": "PROTON_LUMO_TOKEN",
-        "instance_secret": "LUMO_INSTANCE_ID"
-      }
-    },
-
-    "automation_scripts": {
-      "resource_check": "./automation/resource_check.sh",
-      "status_report": "./automation/status_report.sh", 
-      "vm_provision": "./automation/vm_provision.sh",
-      "heartbeat_monitor": "./automation/heartbeat_monitor.sh",
-      "freshness_loop": "./automation/freshness_loop.sh",
-      "ref_tag_generator": "./automation/generate_ref_tag.sh",
-      "agent_coordination": "./automation/coordinate_agents.sh",
-      "agent_invocation": "./automation/invoke_agent.sh",
-      "context_capture": "./automation/capture_context.sh",
-      "emergency_halt": "./automation/emergency_halt.sh",
-      "ref_state_sync": "./automation/sync_ref_state.sh"
-    },
-
-    "infrastructure": {
-      "proxmox_ve": {
-        "monitoring_endpoint": "https://pve.locus.internal:8006/api2/json",
-        "nodes": ["pve-node1", "pve-node2", "pve-node3"],
-        "auth_method": "api_token"
-      },
-      "proxmox_backup": {
-        "monitoring_endpoint": "https://pbs.locus.internal:8007/api2/json",
-        "servers": ["pbs-backup1", "pbs-backup2"],
-        "auth_method": "api_token"
-      },
-      "media_servers": {
-        "containers": ["pms-media1", "pms-transcoder1"],
-        "monitoring": "docker_api"
-      },
-      "cloud_resources": {
-        "aws_cloudwatch": {
-          "region": "us-east-1",
-          "auth_method": "iam_role"
-        },
-        "cdn_endpoints": 3,
-        "dns_resolution": "healthy"
-      }
-    },
-
-    "ref_tagging": {
-      "enabled": true,
-      "enforce_on_jobs": true,
-      "enforce_on_artifacts": true,
-      "format": "LOCUS-{TYPE}{TIMESTAMP}-{COUNTER}",
-      "types": ["task", "job", "artifact", "agent", "resource"],
-      "generator_script": "./automation/generate_ref_tag.sh",
-      "audit_logging": true,
-      "counter_file": "/tmp/locus_ref_counter",
-      "audit_file": "/tmp/locus_ref_audit.log"
-    },
-
-    "security": {
-      "secrets_in_github": true,
-      "least_privilege": true,
-      "rotation_enabled": true, 
-      "audit_logging": true,
-      "required_secrets": [
-        "CLAUDE_API_KEY",
-        "PERPLEXITY_API_KEY", 
-        "PROTON_LUMO_TOKEN",
-        "LUMO_INSTANCE_ID",
-        "GITHUB_TOKEN",
-        "PVE_API_TOKEN",
-        "PBS_API_TOKEN",
-        "AWS_ACCESS_KEY"
-      ]
-    },
-
-    "monitoring": {
-      "polling_interval": 300,
-      "heartbeat_interval": 60,
-      "report_generation": true,
-      "freshness_validation": true,
-      "json_output_dir": "/tmp",
-      "markdown_output_dir": "./docs"
-    }
-  },
-
-  "files.associations": {
-    "locus_*.json": "json",
-    "*.ref": "plaintext",
-    "status_report_*.md": "markdown",
-    "**/automation/*.sh": "shellscript",
-    "**/config/*.json": "jsonc"
-  },
-
-  "files.watcherExclude": {
-    "**/tmp/**": true,
-    "**/locus_*.json": false,
-    "**/qr.png": true,
-    "**/.git/**": true
-  },
-
-  "search.exclude": {
-    "**/tmp/**": true,
-    "**/node_modules/**": true,
-    "**/.git/**": true,
-    "**/qr.png": true
-  },
-
-  "terminal.integrated.env.linux": {
-    "LOCUS_ROOT": "${workspaceFolder}",
-    "LOCUS_REF_PREFIX": "LOCUS",
-    "LOCUS_AUTOMATION_DIR": "${workspaceFolder}/automation",
-    "LOCUS_CONFIG_DIR": "${workspaceFolder}/config",
-    "LOCUS_CONTEXT_DIR": "${workspaceFolder}/context"
-  },
-
-  "shellcheck.enable": true,
-  "shellcheck.executablePath": "/usr/bin/shellcheck",
-  "shellcheck.run": "onSave",
-  "shellcheck.exclude": [],
-
-  "json.validate.enable": true,
-  "json.format.enable": true,
-
-  "markdown.preview.breaks": true,
-  "markdown.preview.linkify": true,
-
-  "git.ignoreLimitWarning": true,
-  "git.autofetch": true,
-
   "editor.formatOnSave": true,
   "editor.rulers": [80, 120],
   "editor.tabSize": 2,
   "editor.insertSpaces": true,
-
   "workbench.colorCustomizations": {
     "statusBar.background": "#2d3748",
     "statusBar.foreground": "#ffffff",
     "statusBar.noFolderBackground": "#2d3748"
   },
-
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.expand": false,
   "explorer.fileNesting.patterns": {
