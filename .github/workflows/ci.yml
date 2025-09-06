@@ -40,10 +40,16 @@ jobs:
         
     - name: Check script permissions
       run: |
-        find scripts/ -name "*.sh" -type f ! -perm -111 | while read -r file; do
+        not_executable=0
+        while IFS= read -r file; do
           echo "Script $file is not executable"
+          not_executable=1
+        done < <(find scripts/ -name "*.sh" -type f ! -perm -111)
+        if [ "$not_executable" -eq 1 ]; then
           exit 1
-        done || echo "All scripts are executable"
+        else
+          echo "All scripts are executable"
+        fi
 
   security:
     name: Security Scan
