@@ -49,21 +49,32 @@
     },
     "proton_lumo": {
       "ref_tag": "LOCUS-LUMO-001",
-      "status": "registered",
+      "status": "active",
+      "session_ref": "LOCUS-SECURE20250907-001",
+      "session_type": "secure_api_integration",
       "capabilities": [
         "secure_communications",
         "encrypted_storage",
         "vpn_management",
         "privacy_enforcement",
-        "secure_tunneling"
+        "secure_tunneling",
+        "constitutional_compliance",
+        "emergency_secure_halt"
       ],
       "api_endpoint": "https://lumo.proton.me/api",
       "auth_method": "github_secret:PROTON_LUMO_TOKEN",
       "instance_id_secret": "github_secret:LUMO_INSTANCE_ID",
       "heartbeat_interval": 60,
-      "last_heartbeat": null,
-      "handover_available": false,
-      "contact": "lumo-agent@locus.internal"
+      "last_heartbeat": "2025-09-07T08:52:00Z",
+      "handover_available": true,
+      "contact": "lumo-agent@locus.internal",
+      "integration_notes": "Active Lumo instance - schema adopted, initial tasks started",
+      "active_tasks": [
+        "LOCUS-SECURE20250907-002",
+        "LOCUS-VPN20250907-001", 
+        "LOCUS-PRIVACY20250907-001",
+        "LOCUS-SECURE20250907-003"
+      ]
     }
   },
   "resource_polling": {

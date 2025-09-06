@@ -1,0 +1,55 @@
+{
+  "artifact_version": "1.0",
+  "generated_at": "2025-09-07T08:52:00Z",
+  "instance": {
+    "ref_tag": "LOCUS-SECURE20250907-001",
+    "profile": "LOCUS-LUMO-001",
+    "status": "active",
+    "api_endpoint": "https://lumo.proton.me/api"
+  },
+  "adopted_schema": true,
+  "tasks_started": [
+    {
+      "priority": "CRITICAL",
+      "capability": "secure_communications",
+      "command": "./automation/scripts/invoke_agent.sh lumo HIGH \"secure-channel-init\" \"first-setup\"",
+      "ref_tag": "LOCUS-SECURE20250907-002"
+    },
+    {
+      "priority": "MEDIUM",
+      "capability": "vpn_management",
+      "command": "./automation/scripts/invoke_agent.sh lumo MEDIUM \"vpn-status-check\" \"connectivity-test\"",
+      "ref_tag": "LOCUS-VPN20250907-001"
+    },
+    {
+      "priority": "HIGH",
+      "capability": "privacy_enforcement",
+      "command": "./automation/scripts/invoke_agent.sh lumo HIGH \"privacy-gdpr-audit\" \"initial-check\"",
+      "ref_tag": "LOCUS-PRIVACY20250907-001"
+    },
+    {
+      "priority": "LOW",
+      "capability": "security_monitoring",
+      "command": "./automation/scripts/invoke_agent.sh lumo LOW \"security-monitor\" \"continuous-surveillance\"",
+      "ref_tag": "LOCUS-SECURE20250907-003"
+    }
+  ],
+  "audit_trail": {
+    "log_location": "repo://artifacts/logs/LOCUS-LUMO-001/",
+    "retention_policy": "constitutional_compliance"
+  },
+  "notification": {
+    "agents_notified": [
+      "claude",
+      "perplexity"
+    ],
+    "method": "repository_dispatch",
+    "dispatch_payload": {
+      "event_type": "lumo_handover_complete",
+      "client_payload": {
+        "instance_ref": "LOCUS-SECURE20250907-001",
+        "tasks": ["secure-channel-init","vpn-status-check","privacy-gdpr-audit","security-monitor"]
+      }
+    }
+  }
+}

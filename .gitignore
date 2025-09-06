@@ -32,11 +32,27 @@ __pycache__/
 ehthumbs.db
 Thumbs.db
 
-# REF tag counter and audit files (these are temporary)
+# Locus runtime and temporary files
 /tmp/locus_ref_counter
 /tmp/locus_ref_audit.log
 /tmp/locus_*.json
 /tmp/locus_*.md
+/tmp/locus_contexts/
+/tmp/locus_handover/
+/tmp/locus_coordination_*.json
+/tmp/locus_task_*.json
+/tmp/phase*_*.log
+/tmp/support_*_*.log
+/tmp/integration_*.log
+
+# Keep templated handover documents but exclude runtime logs
+handover/*.log
+handover/tmp_*
+artifacts/logs/
+artifacts/runtime/
+
+# Status reports (keep templates, exclude generated reports)
+docs/status_report_*.md
 
 # QR code generated images
 qr.png
