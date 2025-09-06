@@ -64,17 +64,17 @@ The following information is needed from the user to complete the Perplexity int
 ## 🔧 Ready Components
 
 ### Research Automation
-The following scripts are ready for article integration:
+The following scripts are available for research integration:
 
 ```bash
-# Research query automation (ready)
-./automation/perplexity_research.sh
+# Research query automation via freshness loop
+./automation/freshness_loop.sh
 
-# Knowledge base sync (ready)
-./automation/sync_knowledge_base.sh
+# Generate research REF tags
+./automation/generate_ref_tag.sh task "perplexity-research"
 
-# Article monitoring (ready, needs URL)
-./automation/monitor_article.sh [ARTICLE_URL]
+# Coordinate research tasks with other agents
+./automation/coordinate_agents.sh perplexity_pro claude "research-task"
 ```
 
 ### Integration Points
@@ -134,13 +134,10 @@ output_destination: "docs/|reports/|knowledge_base/"
 
 **Example Request:**
 ```bash
-# Submit integration request
-./automation/request_perplexity_integration.sh \
-  --article-url "https://example-perplexity-article" \
-  --scope "full" \
-  --topics "proxmox,virtualization,security" \
-  --schedule "weekly" \
-  --output "docs/perplexity-insights/"
+# Submit integration request via invoke_agent
+./automation/invoke_agent.sh perplexity_pro high \
+  "research-integration" \
+  "scope:full,topics:proxmox-virtualization-security,schedule:weekly"
 ```
 
 ---
