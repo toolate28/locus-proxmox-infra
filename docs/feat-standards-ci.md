@@ -445,7 +445,7 @@ security: Implement additional secret scanning validation
 shellcheck automation/scripts/*.sh scripts/*.sh
 ./automation/scripts/generate_ref_tag.sh task "validation-$(date +%s)"
 ./automation/scripts/resource_check.sh
-./automation/scripts/vm_provision.sh web "test-$(date +%s)"  
+./automation/scripts/vm_provision.sh agent "test-$(date +%s)"  
 ./automation/scripts/status_report.sh
 ./automation/scripts/heartbeat_monitor.sh
 ./automation/scripts/freshness_loop.sh
