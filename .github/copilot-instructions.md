@@ -14,19 +14,19 @@ Run these commands to set up and validate the environment:
 sudo apt-get update && sudo apt-get install -y qrencode jq shellcheck
 
 # Make scripts executable 
-chmod +x automation/*.sh scripts/*.sh
+chmod +x automation/scripts/*.sh scripts/*.sh
 
 # Validate all scripts with linting - EXPECTED: warnings only, no errors
-shellcheck automation/*.sh scripts/*.sh
+shellcheck automation/scripts/*.sh scripts/*.sh
 # Note: Shellcheck warnings are acceptable - they're style suggestions, not errors
 
 # Test all automation scripts - TOTAL TIME: ~10 seconds
-time ./automation/generate_ref_tag.sh task "bootstrap-test"
-time ./automation/resource_check.sh
-time ./automation/vm_provision.sh web test-vm
-time ./automation/status_report.sh  
-time ./automation/heartbeat_monitor.sh
-time ./automation/freshness_loop.sh
+time ./automation/scripts/generate_ref_tag.sh task "bootstrap-test"
+time ./automation/scripts/resource_check.sh
+time ./automation/scripts/vm_provision.sh web test-vm
+time ./automation/scripts/status_report.sh  
+time ./automation/scripts/heartbeat_monitor.sh
+time ./automation/scripts/freshness_loop.sh
 
 # Test QR generation - TIME: <1 second
 time ./scripts/generate_qr.sh "https://example.com/test"
@@ -42,15 +42,15 @@ Always run this complete validation sequence after making changes:
 
 ```bash
 # 1. Lint all scripts (1-2 seconds)
-shellcheck automation/*.sh scripts/*.sh
+shellcheck automation/scripts/*.sh scripts/*.sh
 
 # 2. Run all automation scripts (6-10 seconds total)
-./automation/generate_ref_tag.sh task "validation-$(date +%s)"
-./automation/resource_check.sh
-./automation/vm_provision.sh web "test-$(date +%s)"  
-./automation/status_report.sh
-./automation/heartbeat_monitor.sh
-./automation/freshness_loop.sh
+./automation/scripts/generate_ref_tag.sh task "validation-$(date +%s)"
+./automation/scripts/resource_check.sh
+./automation/scripts/vm_provision.sh web "test-$(date +%s)"  
+./automation/scripts/status_report.sh
+./automation/scripts/heartbeat_monitor.sh
+./automation/scripts/freshness_loop.sh
 
 # 3. Verify outputs exist and are valid JSON
 ls -la /tmp/locus_*.json | tail -5
@@ -60,7 +60,7 @@ jq 'keys' /tmp/locus_resource_report_*.json | tail -1
 
 ## Repository Structure and Navigation
 
-### Core Automation Scripts (`/automation/`)
+### Core Automation Scripts (`/automation/scripts/`)
 - `generate_ref_tag.sh` - Creates unique REF tags for traceability (1 sec)
 - `resource_check.sh` - Monitors PVE/PBS/PMS infrastructure (3 secs)  
 - `vm_provision.sh` - Automates VM creation workflows (7 secs)
@@ -91,9 +91,9 @@ jq 'keys' /tmp/locus_resource_report_*.json | tail -1
 ### Scenario 1: REF Tag Workflow Validation
 ```bash
 # Generate different tag types and verify uniqueness
-REF1=$(./automation/generate_ref_tag.sh task "test-workflow")
-REF2=$(./automation/generate_ref_tag.sh job "test-job") 
-REF3=$(./automation/generate_ref_tag.sh artifact "test-artifact")
+REF1=$(./automation/scripts/generate_ref_tag.sh task "test-workflow")
+REF2=$(./automation/scripts/generate_ref_tag.sh job "test-job") 
+REF3=$(./automation/scripts/generate_ref_tag.sh artifact "test-artifact")
 
 # Verify tags are unique and properly formatted
 echo "Generated REFs: $REF1, $REF2, $REF3"
@@ -106,7 +106,7 @@ cat /tmp/locus_ref_audit.log | tail -3
 ### Scenario 2: Infrastructure Monitoring Validation  
 ```bash
 # Run resource check and validate outputs
-./automation/resource_check.sh
+./automation/scripts/resource_check.sh
 
 # Verify JSON report is generated and valid
 REPORT=$(ls /tmp/locus_resource_report_*.json | tail -1)
@@ -118,7 +118,7 @@ echo "✓ Resource monitoring functional"
 ### Scenario 3: Agent Operations Validation
 ```bash
 # Test heartbeat monitoring
-./automation/heartbeat_monitor.sh
+./automation/scripts/heartbeat_monitor.sh
 
 # Verify all agents show healthy status
 HEARTBEAT=$(ls /tmp/locus_heartbeat_report_*.json | tail -1)
@@ -129,8 +129,8 @@ echo "✓ Agent heartbeat monitoring operational"
 ### Scenario 4: VM Provisioning Validation
 ```bash
 # Test VM provisioning for different types
-./automation/vm_provision.sh web "validation-web"
-./automation/vm_provision.sh database "validation-db"
+./automation/scripts/vm_provision.sh web "validation-web"
+./automation/scripts/vm_provision.sh database "validation-db"
 
 # Verify configuration generation
 PROVISION=$(ls /tmp/locus_vm_provision_*.json | tail -1)
@@ -141,7 +141,7 @@ echo "✓ VM provisioning workflow functional"
 ### Scenario 5: Status Reporting Validation
 ```bash
 # Generate comprehensive status report
-./automation/status_report.sh
+./automation/scripts/status_report.sh
 
 # Verify both markdown and JSON outputs
 ls -la docs/status_report_*.md | tail -1
@@ -187,9 +187,9 @@ REF tags are the foundation of Project Locus traceability:
 
 Always generate REF tags for any infrastructure operation:
 ```bash
-# For tasks: ./automation/generate_ref_tag.sh task "description"
-# For jobs: ./automation/generate_ref_tag.sh job "description"  
-# For artifacts: ./automation/generate_ref_tag.sh artifact "description"
+# For tasks: ./automation/scripts/generate_ref_tag.sh task "description"
+# For jobs: ./automation/scripts/generate_ref_tag.sh job "description"  
+# For artifacts: ./automation/scripts/generate_ref_tag.sh artifact "description"
 ```
 
 ## Common Tasks and Expected Outputs

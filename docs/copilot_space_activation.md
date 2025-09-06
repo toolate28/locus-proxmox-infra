@@ -51,11 +51,11 @@
 - **Network Infrastructure:** Bandwidth and latency tracking
 
 ### Automation Status
-- **Resource Check:** `automation/resource_check.sh` ✅
+- **Resource Check:** `automation/scripts/resource_check.sh` ✅
 - **Status Reporting:** `automation/status_report.sh` ✅  
-- **VM Provisioning:** `automation/vm_provision.sh` ✅
-- **Heartbeat Monitor:** `automation/heartbeat_monitor.sh` ✅
-- **Freshness Loop:** `automation/freshness_loop.sh` ✅
+- **VM Provisioning:** `automation/scripts/vm_provision.sh` ✅
+- **Heartbeat Monitor:** `automation/scripts/heartbeat_monitor.sh` ✅
+- **Freshness Loop:** `automation/scripts/freshness_loop.sh` ✅
 
 ## Security & Compliance
 
@@ -76,7 +76,7 @@ AWS_ACCESS_KEY=AKIA[REDACTED]
 ```
 
 ### REF Tag Enforcement
-- **Generator:** `automation/generate_ref_tag.sh`
+- **Generator:** `automation/scripts/generate_ref_tag.sh`
 - **Format:** `LOCUS-{TYPE}{TIMESTAMP}-{COUNTER}`
 - **Audit Trail:** `/tmp/locus_ref_audit.log`
 - **Coverage:** 100% of jobs, tasks, and artifacts
@@ -118,19 +118,19 @@ AWS_ACCESS_KEY=AKIA[REDACTED]
 ### Quick Start Commands
 ```bash
 # Test REF tag generation
-./automation/generate_ref_tag.sh task "quick-start-test"
+./automation/scripts/generate_ref_tag.sh task "quick-start-test"
 
 # Run resource monitoring
-./automation/resource_check.sh
+./automation/scripts/resource_check.sh
 
 # Generate status report  
 ./automation/status_report.sh
 
 # Test agent heartbeat
-./automation/heartbeat_monitor.sh
+./automation/scripts/heartbeat_monitor.sh
 
 # Run freshness validation
-./automation/freshness_loop.sh
+./automation/scripts/freshness_loop.sh
 ```
 
 ## Next Phase Planning
@@ -157,7 +157,7 @@ AWS_ACCESS_KEY=AKIA[REDACTED]
 
 ### Technical Support
 - **Documentation:** Complete guides in `docs/` directory
-- **Scripts:** Automation tools in `automation/` directory
+- **Scripts:** Automation tools in `automation/scripts/` directory
 - **Configuration:** Settings in `config/` directory
 - **Status:** Real-time info in `context/AGENT_STATUS.json`
 
