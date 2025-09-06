@@ -4,8 +4,10 @@
 
 set -e
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 AGENT="${1:-claude}"
-REF_TAG="${2:-$(./automation/generate_ref_tag.sh context "capture")}"
+REF_TAG="${2:-$("$SCRIPT_DIR/generate_ref_tag.sh" context "capture")}"
 
 echo "=== LOCUS CONTEXT CAPTURE ==="
 echo "Agent: $AGENT"
@@ -21,7 +23,7 @@ echo "Capturing system state..."
 CONTEXT_FILE="/tmp/locus_contexts/context_${REF_TAG}.json"
 
 # Get current resource status
-RESOURCE_STATUS=$(./automation/resource_check.sh 2>/dev/null || echo "Resource check unavailable")
+RESOURCE_STATUS=$("$SCRIPT_DIR/resource_check.sh" 2>/dev/null || echo "Resource check unavailable")
 
 # Get agent status
 AGENT_STATUS=$(cat context/AGENT_STATUS.json 2>/dev/null || echo "{}")

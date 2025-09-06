@@ -31,22 +31,22 @@ This repository establishes the institutional scaffolding for Project Locus with
 ### Essential Commands
 ```bash
 # Generate REF tags for traceability
-./automation/generate_ref_tag.sh task "your-task-name"
+./automation/scripts/generate_ref_tag.sh task "your-task-name"
 
 # Monitor infrastructure resources  
-./automation/resource_check.sh
+./automation/scripts/resource_check.sh
 
 # Generate status reports
-./automation/status_report.sh
+./automation/scripts/status_report.sh
 
 # Check agent heartbeats
-./automation/heartbeat_monitor.sh
+./automation/scripts/heartbeat_monitor.sh
 
 # Run freshness validation
-./automation/freshness_loop.sh
+./automation/scripts/freshness_loop.sh
 
 # Provision new VMs with automation
-./automation/vm_provision.sh web myapp-frontend
+./automation/scripts/vm_provision.sh web myapp-frontend
 ```
 
 ## 📁 Repository Structure
@@ -57,12 +57,13 @@ This repository establishes the institutional scaffolding for Project Locus with
 ├── handover/
 │   └── REF-TASK20240904-01.md     # Sample handover marker
 ├── automation/
-│   ├── generate_ref_tag.sh        # REF tag generator for traceability
-│   ├── resource_check.sh          # Infrastructure monitoring
-│   ├── status_report.sh           # Comprehensive status reporting
-│   ├── vm_provision.sh            # Automated VM deployment
-│   ├── heartbeat_monitor.sh       # Agent heartbeat tracking
-│   └── freshness_loop.sh          # Perplexity-powered real-time reports
+│   └── scripts/                      # Automation script collection
+│       ├── generate_ref_tag.sh        # REF tag generator for traceability
+│       ├── resource_check.sh          # Infrastructure monitoring
+│       ├── status_report.sh           # Comprehensive status reporting
+│       ├── vm_provision.sh            # Automated VM deployment
+│       ├── heartbeat_monitor.sh       # Agent heartbeat tracking
+│       └── freshness_loop.sh          # Perplexity-powered real-time reports
 ├── config/
 │   └── resource_config.json       # Resource monitoring configuration
 └── docs/
