@@ -26,7 +26,7 @@ curl -X POST https://api.anthropic.com/v1/messages \
   }'
 
 # 2. Generate your agent REF tag
-REF_TAG=$(./automation/generate_ref_tag.sh agent "claude-pro-setup")
+REF_TAG=$(./automation/scripts/generate_ref_tag.sh agent "claude-pro-setup")
 echo "Your Claude Agent REF: $REF_TAG"
 
 # 3. Update agent status
@@ -63,13 +63,13 @@ Claude agents in Project Locus follow standardized context protocols:
 #### Context Sharing Protocol
 ```bash
 # Capture current context for handover
-./automation/capture_context.sh claude $REF_TAG
+./automation/scripts/capture_context.sh claude $REF_TAG
 
 # Coordinate with other agents
-./automation/coordinate_agents.sh claude perplexity "task description"
+./automation/scripts/coordinate_agents.sh claude perplexity "task description"
 
 # Use invoke_agent.sh for specific agent tasks
-./automation/invoke_agent.sh perplexity "research task" $REF_TAG
+./automation/scripts/invoke_agent.sh perplexity "research task" $REF_TAG
 ```
 
 ---
@@ -85,7 +85,7 @@ Claude agents in Project Locus follow standardized context protocols:
 ### Optimal Task Types
 1. **Code Review & Analysis**
    ```bash
-   CLAUDE HIGH REVIEW automation/vm_provision.sh SECURITY-COMPLIANCE
+   CLAUDE HIGH REVIEW automation/scripts/vm_provision.sh SECURITY-COMPLIANCE
    ```
 
 2. **Documentation Generation**
@@ -142,35 +142,35 @@ CLAUDE_SUPPORT="automation-scripts"
 ./automation/status_report.sh
 
 # Check resource availability
-./automation/resource_check.sh
+./automation/scripts/resource_check.sh
 
 # Monitor agent heartbeats
-./automation/heartbeat_monitor.sh
+./automation/scripts/heartbeat_monitor.sh
 ```
 
 ### Weekly Tasks
 ```bash
 # Generate REF tag for weekly review
-REF_TAG=$(./automation/generate_ref_tag.sh task "weekly-claude-review")
+REF_TAG=$(./automation/scripts/generate_ref_tag.sh task "weekly-claude-review")
 
 # Run freshness validation
-./automation/freshness_loop.sh
+./automation/scripts/freshness_loop.sh
 
 # Check for infrastructure updates needed
-./automation/resource_check.sh
+./automation/scripts/resource_check.sh
 ```
 
 ### Monthly Tasks
 ```bash
 # Generate comprehensive status report
-REF_TAG=$(./automation/generate_ref_tag.sh task "monthly-comprehensive-review")
+REF_TAG=$(./automation/scripts/generate_ref_tag.sh task "monthly-comprehensive-review")
 ./automation/status_report.sh
 
 # Run full freshness validation
-./automation/freshness_loop.sh
+./automation/scripts/freshness_loop.sh
 
 # Check emergency halt status
-./automation/emergency_halt.sh --status
+./automation/scripts/emergency_halt.sh --status
 ```
 
 ---
@@ -212,13 +212,13 @@ Agents can share access to Locus artifacts by generating a QR code that embeds a
 ### Advanced Context Sharing
 ```bash
 # Generate context with capture_context.sh
-./automation/capture_context.sh $REF_TAG
+./automation/scripts/capture_context.sh $REF_TAG
 
 # Use QR code generation for sharing
 ./scripts/generate_qr.sh "https://locus.internal/context/$REF_TAG"
 
 # Notify receiving agent via coordination system
-./automation/coordinate_agents.sh claude perplexity "context-transfer"
+./automation/scripts/coordinate_agents.sh claude perplexity "context-transfer"
 ```
 
 See [docs/qr-share.md](docs/qr-share.md) for more details.
@@ -246,13 +246,13 @@ See [docs/qr-share.md](docs/qr-share.md) for more details.
 ### Emergency Procedures
 ```bash
 # Use emergency halt for critical situations
-./automation/emergency_halt.sh --halt "critical-issue" high
+./automation/scripts/emergency_halt.sh --halt "critical-issue" high
 
 # Capture current context for recovery
-./automation/capture_context.sh $REF_TAG
+./automation/scripts/capture_context.sh $REF_TAG
 
 # Coordinate emergency response with other agents
-./automation/coordinate_agents.sh claude "all" "emergency-response"
+./automation/scripts/coordinate_agents.sh claude "all" "emergency-response"
 ```
 
 ---
@@ -268,13 +268,13 @@ See [docs/qr-share.md](docs/qr-share.md) for more details.
 ### Monitoring Commands
 ```bash
 # Real-time resource monitoring
-./automation/resource_check.sh
+./automation/scripts/resource_check.sh
 
 # Generate status report for performance analysis
 ./automation/status_report.sh
 
 # Check agent heartbeats for system health
-./automation/heartbeat_monitor.sh
+./automation/scripts/heartbeat_monitor.sh
 ```
 
 ---
@@ -290,22 +290,22 @@ Located in `context/claude_prompts/`:
 ### Integration Hooks
 ```bash
 # Use existing automation scripts for integration
-./automation/invoke_agent.sh claude "pre-task-check" $REF_TAG
+./automation/scripts/invoke_agent.sh claude "pre-task-check" $REF_TAG
 
 # Post-task validation via status reports
 ./automation/status_report.sh
 
 # Continuous monitoring with heartbeat
-./automation/heartbeat_monitor.sh
+./automation/scripts/heartbeat_monitor.sh
 ```
 
 ### Advanced Context Management
 ```bash
 # Use capture_context.sh for advanced context handling
-./automation/capture_context.sh $REF_TAG
+./automation/scripts/capture_context.sh $REF_TAG
 
 # Coordinate context sharing between agents
-./automation/coordinate_agents.sh claude perplexity "context-analysis"
+./automation/scripts/coordinate_agents.sh claude perplexity "context-analysis"
 
 # Sync reference state for consistency
 ./automation/sync_ref_state.sh --sync

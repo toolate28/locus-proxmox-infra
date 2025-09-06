@@ -104,22 +104,23 @@ graph LR
 **Essential Infrastructure Commands:**
 ```bash
 # Generate REF tags for traceability
-./automation/generate_ref_tag.sh task "infrastructure-update"
+
+./automation/scripts/generate_ref_tag.sh task "your-task-name"
 
 # Monitor infrastructure resources  
-./automation/resource_check.sh
+./automation/scripts/resource_check.sh
 
 # Generate status reports
-./automation/status_report.sh
+./automation/scripts/status_report.sh
 
 # Check agent heartbeats
-./automation/heartbeat_monitor.sh
+./automation/scripts/heartbeat_monitor.sh
 
 # Run freshness validation
-./automation/freshness_loop.sh
+./automation/scripts/freshness_loop.sh
 
 # Provision new VMs with automation
-./automation/vm_provision.sh web myapp-frontend
+./automation/scripts/vm_provision.sh web myapp-frontend
 ```
 
 ### 👨‍💻 For Developers & Agents *(Integration focus)*
@@ -168,9 +169,6 @@ graph TD
     style I fill:#e8f5e8
     style J fill:#fce4ec
 ```
-
-### 🗂️ Directory Structure & Purpose
-
 ```
 📁 Project Locus Root
 ├── 🤖 automation/           # Core infrastructure automation

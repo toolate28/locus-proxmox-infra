@@ -46,7 +46,7 @@ Check that agents are properly registered:
 cat context/AGENT_STATUS.json
 
 # Generate REF tag for verification
-./automation/generate_ref_tag.sh agent "status-check"
+./automation/scripts/generate_ref_tag.sh agent "status-check"
 ```
 
 ### Update Agent Configuration
@@ -69,13 +69,13 @@ Modify `context/AGENT_STATUS.json` if needed:
 ### Test Resource Monitoring
 ```bash
 # Run resource check
-./automation/resource_check.sh
+./automation/scripts/resource_check.sh
 
 # Generate status report
 ./automation/status_report.sh
 
 # Test VM provisioning (dry run)
-./automation/vm_provision.sh web test-vm
+./automation/scripts/vm_provision.sh web test-vm
 ```
 
 ### Schedule Automation
@@ -93,7 +93,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Run resource check
-        run: ./automation/resource_check.sh
+        run: ./automation/scripts/resource_check.sh
         env:
           PVE_API_TOKEN: ${{ secrets.PVE_API_TOKEN }}
           PBS_API_TOKEN: ${{ secrets.PBS_API_TOKEN }}
@@ -139,9 +139,9 @@ find . -name "*.sh" -exec ls -la {} \;
 ### Test REF Tag Generation
 ```bash
 # Generate various REF tag types
-./automation/generate_ref_tag.sh task "test-task"
-./automation/generate_ref_tag.sh job "monitoring"
-./automation/generate_ref_tag.sh artifact "report"
+./automation/scripts/generate_ref_tag.sh task "test-task"
+./automation/scripts/generate_ref_tag.sh job "monitoring"
+./automation/scripts/generate_ref_tag.sh artifact "report"
 
 # Verify audit logging
 cat /tmp/locus_ref_audit.log
@@ -206,9 +206,9 @@ Schedule regular freshness validation:
 
 ```bash
 # Create freshness check script
-cat > automation/freshness_check.sh << 'EOF'
+cat > automation/scripts/freshness_check.sh << 'EOF'
 #!/bin/bash
-REF_TAG=$(./automation/generate_ref_tag.sh job "freshness-check")
+REF_TAG=$(./automation/scripts/generate_ref_tag.sh job "freshness-check")
 echo "Running freshness check with REF: $REF_TAG"
 
 # Use Perplexity to validate current infrastructure trends
@@ -216,7 +216,7 @@ echo "Running freshness check with REF: $REF_TAG"
 echo "Freshness validation complete"
 EOF
 
-chmod +x automation/freshness_check.sh
+chmod +x automation/scripts/freshness_check.sh
 ```
 
 ## Troubleshooting

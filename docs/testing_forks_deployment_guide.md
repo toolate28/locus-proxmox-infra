@@ -12,7 +12,7 @@ This deployment guide provides step-by-step instructions for implementing and te
 **Essential Components**:
 - `config/machine_topology.json` - Two-machine coordination configuration
 - `automation/sync_ref_state.sh` - Simple rsync between machines
-- `automation/agent_handover.py` - Basic handover creation/reading
+- `automation/scripts/agent_handover.py` - Basic handover creation/reading
 - `validation/coordination_test.py` - Cross-machine sync tests
 
 **Success Criteria**: 
@@ -28,7 +28,7 @@ This deployment guide provides step-by-step instructions for implementing and te
 **Essential Components**:
 - `config/constitutional_principles.json` - Six principles with thresholds
 - `monitoring/principle_tracker.py` - Real-time principle compliance
-- `automation/emergency_halt.sh` - Cross-machine emergency stop
+- `automation/scripts/emergency_halt.sh` - Cross-machine emergency stop
 - `validation/constitutional_test.py` - Principle violation scenarios
 
 **Success Criteria**:
@@ -170,7 +170,7 @@ python3 ./discovery/template_matcher.py details household_management
 ./automation/sync_ref_state.sh --init-core
 
 # Create agent handover
-python3 ./automation/agent_handover.py create claude_pro perplexity_pro "Analyze infrastructure"
+python3 ./automation/scripts/agent_handover.py create claude_pro perplexity_pro "Analyze infrastructure"
 
 # Sync state between machines
 ./automation/sync_ref_state.sh --sync 192.168.1.101
@@ -182,13 +182,13 @@ python3 ./automation/agent_handover.py create claude_pro perplexity_pro "Analyze
 python3 ./monitoring/principle_tracker.py
 
 # Trigger emergency halt
-./automation/emergency_halt.sh --halt resource_violation critical
+./automation/scripts/emergency_halt.sh --halt resource_violation critical
 
 # Check emergency status
-./automation/emergency_halt.sh --status
+./automation/scripts/emergency_halt.sh --status
 
 # Approve emergency resolution
-./automation/emergency_halt.sh --approve LOCUS-JOB-REF
+./automation/scripts/emergency_halt.sh --approve LOCUS-JOB-REF
 ```
 
 ## Integration Decision Framework
