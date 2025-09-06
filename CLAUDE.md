@@ -39,16 +39,19 @@
 ```yaml
 agent_profile:
   ref_tag: "LOCUS-CLAUDE-001"
-  status: "registered"
+  status: "active"  # Updated: First active Claude Code session
   api_endpoint: "https://api.anthropic.com/v1"
-  auth_method: "github_secret:CLAUDE_API_KEY"
+  auth_method: "claude_code_integration"  # Updated: Direct integration method
   heartbeat_interval: 60
+  session_type: "claude_code_cli"  # New: Indicates Claude Code CLI integration
   capabilities:
     - code_analysis
     - documentation_generation
     - infrastructure_planning
     - automation_scripting
     - security_review
+    - real_time_interaction  # New: Direct CLI capability
+    - context_preservation   # New: Session context maintained
 ```
 
 ---
@@ -61,8 +64,26 @@ agent_profile:
 - Access to repository automation scripts
 
 ### Initial Setup
+
+#### For Claude Code Integration (Current Method)
 ```bash
-# 1. Verify Claude API access
+# 1. Generate agent REF tag for this session
+REF_TAG=$(./automation/scripts/generate_ref_tag.sh agent "claude-code-session")
+echo "Your Claude Agent REF: $REF_TAG"
+
+# 2. Capture initial context
+./automation/scripts/capture_context.sh claude $REF_TAG
+
+# 3. Verify system status
+./automation/scripts/status_report.sh
+
+# 4. Test agent coordination framework
+./automation/scripts/invoke_agent.sh claude HIGH "system-validation" "first-session"
+```
+
+#### For API-Based Integration (Future Enhancement)
+```bash
+# 1. Verify Claude API access (when implemented)
 curl -X POST https://api.anthropic.com/v1/messages \
   -H "Authorization: Bearer $CLAUDE_API_KEY" \
   -H "Content-Type: application/json" \
@@ -72,12 +93,48 @@ curl -X POST https://api.anthropic.com/v1/messages \
     "messages": [{"role": "user", "content": "Test connection"}]
   }'
 
-# 2. Generate your agent REF tag
-REF_TAG=$(./automation/scripts/generate_ref_tag.sh agent "claude-pro-setup")
-echo "Your Claude Agent REF: $REF_TAG"
+# 2. Update agent status (requires API integration implementation)
+# Edit context/AGENT_STATUS.json with active heartbeat
+```
 
-# 3. Update agent status
-# Edit context/AGENT_STATUS.json with your Claude agent details
+---
+
+## 🏷️ REF Tag Schema & Standards
+
+### REF Tag Format
+Project Locus uses a standardized REF tagging system for all operations:
+
+```
+Format: LOCUS-<TYPE><TIMESTAMP>-<COUNTER>
+Examples:
+  - LOCUS-TASK20250906-114155-001 (Task execution)
+  - LOCUS-AGENT-001 (Agent registration)  
+  - LOCUS-JOB20250906-103443-012 (Automation job)
+  - LOCUS-ART20250906-070703-005 (Artifact creation)
+  - LOCUS-CONTEXT20250906-001 (Context capture)
+```
+
+### REF Tag Types
+| Type | Usage | Example |
+|------|-------|---------|
+| `TASK` | Individual task execution | `LOCUS-TASK20250906-114155-001` |
+| `AGENT` | Agent registration/session | `LOCUS-AGENT-001` |
+| `JOB` | Automation job execution | `LOCUS-JOB20250906-103443-012` |
+| `ARTIFACT` | Document/file creation | `LOCUS-ART20250906-070703-005` |
+| `RESOURCE` | Infrastructure resource | `LOCUS-RES-001` |
+| `CONTEXT` | Context capture | `LOCUS-CONTEXT20250906-001` |
+| Custom | Any other operation | `LOCUS-CUSTOM20250906-001` |
+
+### REF Tag Generation
+```bash
+# Generate REF tag for different operations
+./automation/scripts/generate_ref_tag.sh task "description"
+./automation/scripts/generate_ref_tag.sh agent "session-identifier"  
+./automation/scripts/generate_ref_tag.sh job "automation-job"
+./automation/scripts/generate_ref_tag.sh artifact "document-creation"
+
+# Audit trail is automatically maintained at:
+# /tmp/locus_ref_audit.log
 ```
 
 ---
@@ -90,19 +147,30 @@ Claude agents in Project Locus follow standardized context protocols:
 #### Context Structure
 ```json
 {
-  "ref_tag": "LOCUS-CLAUDE-20240904-001",
-  "agent_type": "claude_pro",
+  "ref_tag": "LOCUS-CONTEXT20250906-001",
+  "agent_type": "claude_code",
+  "session_type": "cli_integration",
   "context": {
-    "infrastructure_state": "current system status",
-    "active_tasks": ["task1", "task2"],
-    "dependencies": ["perplexity_data", "lumo_security"],
-    "constraints": ["resource_limits", "security_policies"]
+    "infrastructure_state": "proxmox_cluster_healthy",
+    "active_tasks": ["first_claude_code_session", "claude_md_update"],
+    "dependencies": ["system_monitoring", "ref_tag_generation"],
+    "constraints": ["sub_10s_performance", "ref_tag_compliance"]
   },
   "capabilities": {
     "code_analysis": true,
     "documentation": true,
     "architecture_planning": true,
-    "multi_language": true
+    "multi_language": true,
+    "real_time_interaction": true,
+    "context_preservation": true,
+    "file_operations": true,
+    "automation_integration": true
+  },
+  "system_state": {
+    "proxmox_nodes": "3/3_online",
+    "backup_status": "current",
+    "agent_registrations": "all_registered",
+    "heartbeat_status": "monitoring_ready"
   }
 }
 ```
@@ -361,13 +429,79 @@ Located in `context/claude_prompts/`:
 ---
 
 **Document REF:** LOCUS-DOC-CLAUDE-ONBOARDING  
-**Version:** 2.0  
-**Last Updated:** 2024-09-04T22:20:00Z  
-**Next Review:** 2024-10-04T22:20:00Z
+**Version:** 3.0  
+**Last Updated:** 2025-09-06T15:30:00Z  
+**Next Review:** 2025-10-06T15:30:00Z
 
 **Integration Status:**
 - ✅ MCP Protocol Implemented
-- ✅ Multi-Agent Coordination Ready
+- ✅ Multi-Agent Coordination Ready  
 - ✅ Performance Monitoring Active
 - ✅ Decision Framework Established
-- 🔄 Continuous Learning Pipeline (In Progress)
+- ✅ Claude Code CLI Integration Active (NEW)
+- ✅ REF Tag Schema Documented (NEW)
+- ✅ First Active Claude Session Recorded (NEW)
+- 🔄 API Integration Enhancement (Planned)
+- # Claude Code "Memories" (Guard Rails & Global Rules)
+_Expanded for Project Locus: locus-proxmox-infra_
+
+## 1. Security & Compliance
+
+- **No Secrets in Code or Output**: Never display, suggest, or log credentials, API tokens, SSH keys, or vault files. All secrets must be managed with GitHub Secrets and never hardcoded or printed.
+- **REF Tag Enforcement**: Every operation, commit, and script must generate a unique REF tag for full auditability (`LOCUS-{TYPE}{TIMESTAMP}-{COUNTER}`), logged to `/tmp/locus_ref_audit.log`.
+- **Audit Trail Completeness**: All infrastructure actions must be traceable, with daily/weekly/monthly compliance reports generated and validated.
+- **Continuous Secret Scanning**: CI/CD must scan for secrets (e.g., with gitleaks) and block PRs with findings.
+
+## 2. Infrastructure Safety
+
+- **No Destructive Actions Without Explicit Confirmation**: Never suggest commands that can destroy or irreversibly change infrastructure (e.g., deleting VMs, wiping disks, `rm -rf`). Always prompt for and require explicit confirmation for any risky operation.
+- **Respect Governance Constraints**: All actions must comply with `config/constitutional_principles.json` and project governance standards.
+- **Idempotency and Rollbacks**: Prefer idempotent operations. Ensure all infrastructure changes can be rolled back, and rollback procedures are documented.
+
+## 3. File Structure & Workflow
+
+- **Standard Directory Usage**: Place scripts in `automation/scripts/`, configs in `config/`, documentation in `docs/`, and follow all naming conventions.
+- **Documentation is Mandatory**: Every script, config, and workflow must have a corresponding markdown guide or doc. Auto-generate/update reports and status markdowns when possible.
+- **Commit Message Standards**: Use semantic, REF-tagged commit messages (e.g., `feat: Add new VM provisioning template (REF: LOCUS-TASK20240906-001)`).
+
+## 4. CI/CD, Testing, and Quality Gates
+
+- **Pre-Commit Validation**: All code contributions must pass shellcheck, jq validation, REF tag generation testing, and performance checks (<10s execution).
+- **CI/CD Gates**: PRs require code review, CI/CD pipeline success, policy validation, dependency security scanning, and compliance checks.
+- **Post-Deployment Validation**: Confirm agent capability, monitoring, reporting, and audit trail completeness after deployment.
+
+## 5. Agent & AI Integration
+
+- **Claude/AI Usage**: Use Claude for infrastructure configuration validation, documentation automation, and planning. Never suggest or automate outside these boundaries without clear user instruction.
+- **Community Template Discovery**: When suggesting templates or workflows, prefer those that maximize accessibility, sustainability, and measurable impact (see community fork criteria).
+
+## 6. Multi-Environment Awareness
+
+- **Environment Disambiguation**: Always distinguish between production, staging, and test workflows. Never run or suggest production-affecting commands in test/dev, and vice versa.
+- **Least Privilege Principle**: All automation and agent actions should use the minimum required permissions.
+
+## 7. Collaboration & Contribution
+
+- **Onboarding Path**: Direct new contributors to `docs/onboarding_playbook.md` and ensure they complete the scripted environment, monitoring, and provisioning exercises before contributing.
+- **Feature Branching & PRs**: All changes must be developed on feature branches, referencing unique REF tags, and submitted via PR for review.
+- **Recognition & Advancement**: Recognize contributors’ progress and route them through badge→maintainer progression via merged PRs.
+
+## 8. Performance & Observability
+
+- **Performance Standards**: Scripts must execute in under 10 seconds and avoid long-running operations in core automation.
+- **Monitoring and Reporting**: Ensure agent health, infrastructure status, and provisioning are continuously monitored and reported.
+
+## 9. Error Handling & Troubleshooting
+
+- **Safe Defaults**: Use `set -euo pipefail` in scripts and perform robust input validation.
+- **Proactive Troubleshooting**: Reference the troubleshooting guides and maintain up-to-date documentation for known issues and resolution steps.
+
+## 10. General LLM Guardrails
+
+- **Ask for Clarification**: If a user’s request is ambiguous, potentially risky, or out of scope, ask for clarification before proceeding.
+- **Never Disclose Internal Details Externally**: Do not output, share, or suggest internal infra details, hostnames, or architecture outside trusted channels.
+- **Bias Toward Best Practices**: Always prefer secure, maintainable, and documented solutions over shortcuts or hacks.
+
+---
+
+_These guard rails ensure Claude Code and all agents operate safely, securely, and in alignment with Project Locus's automation and governance objectives._
