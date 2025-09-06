@@ -1,0 +1,120 @@
+---
+name: Copilot Pull Request Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main, develop]
+
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+
+jobs:
+  copilot-review:
+    name: Copilot Code Review
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.changed_files > 0
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate PR has file changes
+        run: |
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }}..origin/${{ github.event.pull_request.head.ref }} | wc -l)
+          echo "Changed files count: $CHANGED_FILES"
+          if [ "$CHANGED_FILES" -eq 0 ]; then
+            echo "❌ No file changes detected in this PR"
+            echo "::error::Pull request contains no file changes. Please ensure your changes are committed and pushed."
+            exit 1
+          else
+            echo "✅ $CHANGED_FILES file(s) changed - proceeding with review"
+          fi
+
+      - name: Comment on PR for Copilot Review
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { data: files } = await github.rest.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+            
+            const reviewableFiles = files.filter(file => 
+              file.filename.match(/\.(sh|py|json|md|yml|yaml)$/) &&
+              !file.filename.startsWith('.gitignore') &&
+              !file.filename.includes('/tmp/') &&
+              !file.filename.includes('.log')
+            );
+            
+            if (reviewableFiles.length > 0) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: `🤖 **Copilot Review Ready**\n\nThis PR contains ${reviewableFiles.length} reviewable file(s):\n${reviewableFiles.map(f => `- \`${f.filename}\``).join('\n')}\n\n✅ Files are ready for Copilot review. Please ensure GitHub Copilot is enabled for this repository to receive automated code reviews.`
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: `⚠️ **No reviewable files found**\n\nThis PR doesn't contain files that typically require code review (shell scripts, Python files, JSON configs, documentation, or YAML files).`
+              });
+            }
+
+  validate-infrastructure:
+    name: Validate Infrastructure Changes
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.changed_files > 0
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qrencode jq shellcheck
+
+      - name: Make scripts executable
+        run: |
+          find automation/scripts/ scripts/ -name "*.sh" -exec chmod +x {} \;
+
+      - name: Run ShellCheck validation
+        run: |
+          echo "Running ShellCheck on automation scripts..."
+          # Allow warnings but fail on errors
+          shellcheck automation/scripts/*.sh scripts/*.sh || {
+            echo "❌ ShellCheck found critical issues"
+            exit 1
+          }
+          echo "✅ ShellCheck validation completed"
+
+      - name: Test REF tag generation
+        run: |
+          echo "Testing REF tag generation..."
+          if ./automation/scripts/generate_ref_tag.sh task "copilot-validation"; then
+            echo "✅ REF tag generation working"
+          else
+            echo "❌ REF tag generation failed"
+            exit 1
+          fi
+
+      - name: Validate JSON configuration files
+        run: |
+          echo "Validating JSON configuration files..."
+          for file in config/*.json context/*.json; do
+            if [ -f "$file" ]; then
+              if jq empty "$file" 2>/dev/null; then
+                echo "✅ $file is valid JSON"
+              else
+                echo "❌ $file is invalid JSON"
+                exit 1
+              fi
+            fi
+          done
