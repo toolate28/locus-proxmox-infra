@@ -23,16 +23,22 @@ jobs:
           fetch-depth: 0
 
       - name: Validate PR has file changes
-        run: |
-          CHANGED_FILES=$(git diff --name-only origin/${{ github.event.pull_request.base.ref }}..origin/${{ github.event.pull_request.head.ref }} | wc -l)
-          echo "Changed files count: $CHANGED_FILES"
-          if [ "$CHANGED_FILES" -eq 0 ]; then
-            echo "❌ No file changes detected in this PR"
-            echo "::error::Pull request contains no file changes. Please ensure your changes are committed and pushed."
-            exit 1
-          else
-            echo "✅ $CHANGED_FILES file(s) changed - proceeding with review"
-          fi
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { data: files } = await github.rest.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number
+            });
+            const changedFilesCount = files.length;
+            console.log(`Changed files count: ${changedFilesCount}`);
+            if (changedFilesCount === 0) {
+              core.setFailed("❌ No file changes detected in this PR. Please ensure your changes are committed and pushed.");
+            } else {
+              console.log(`✅ ${changedFilesCount} file(s) changed - proceeding with review`);
+            }
 
       - name: Comment on PR for Copilot Review
         uses: actions/github-script@v7
