@@ -120,6 +120,7 @@ jobs:
       - name: Validate JSON configuration files
         run: |
           echo "Validating JSON configuration files..."
+          shopt -s nullglob
           for file in config/*.json context/*.json; do
             if [ -f "$file" ]; then
               if jq empty "$file" 2>/dev/null; then
