@@ -456,15 +456,8 @@ jq 'keys' /tmp/locus_resource_report_*.json | tail -1
 ```
 
 ### Emergency Procedures
-```bash
-# Emergency halt (if needed)
-./automation/scripts/emergency_halt.sh --halt "reason" "severity"
 
-# Check emergency status
-./automation/scripts/emergency_halt.sh --status
-
-# Resume operations (human approval required)
-./automation/scripts/emergency_halt.sh --approve LOCUS-REF-TAG
-```
-
+> **TODO:** Emergency halt functionality is not yet implemented.  
+> The script `./automation/scripts/emergency_halt.sh` is referenced for emergency stop, status, and resume operations, but does not currently exist in the repository.  
+> Please implement this script or update this documentation when the feature is available.
 This comprehensive feature standards and CI/CD documentation ensures consistent, secure, and reliable development practices across the Project Locus multi-agent Proxmox infrastructure automation system.
