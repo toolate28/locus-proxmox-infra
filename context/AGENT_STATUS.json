@@ -8,20 +8,26 @@
   "agents": {
     "claude_pro": {
       "ref_tag": "LOCUS-CLAUDE-001",
-      "status": "registered",
+      "status": "active",
+      "session_ref": "LOCUS-AGENT-001",
+      "session_type": "claude_code_cli",
       "capabilities": [
         "code_analysis",
         "documentation_generation",
         "infrastructure_planning",
         "automation_scripting",
-        "security_review"
+        "security_review",
+        "real_time_interaction",
+        "context_preservation",
+        "file_operations"
       ],
-      "api_endpoint": "https://api.anthropic.com/v1",
-      "auth_method": "github_secret:CLAUDE_API_KEY",
+      "api_endpoint": "claude_code_integration",
+      "auth_method": "direct_cli_integration",
       "heartbeat_interval": 60,
-      "last_heartbeat": null,
-      "handover_available": false,
-      "contact": "claude-agent@locus.internal"
+      "last_heartbeat": "2025-09-07T08:37:26+10:00",
+      "handover_available": true,
+      "contact": "claude-agent@locus.internal",
+      "integration_notes": "First active Claude Code session - direct CLI integration"
     },
     "perplexity_pro": {
       "ref_tag": "LOCUS-PERPLEXITY-001",
