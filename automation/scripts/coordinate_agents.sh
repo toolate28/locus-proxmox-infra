@@ -4,13 +4,15 @@
 
 set -e
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 LEAD_AGENT="${1:-claude}"
 SUPPORT_AGENTS="${2:-perplexity}"
 TASK="${3:-coordination-test}"
 CONTEXT="${4:-default}"
 
 # Generate coordination REF tag
-REF_TAG=$(./automation/generate_ref_tag.sh coordination "multi-agent-${LEAD_AGENT}")
+REF_TAG=$("$SCRIPT_DIR/generate_ref_tag.sh" coordination "multi-agent-${LEAD_AGENT}")
 
 echo "=== LOCUS MULTI-AGENT COORDINATION ==="
 echo "Lead Agent: $LEAD_AGENT"
@@ -40,8 +42,8 @@ EOF
 
 # Phase 1: Lead agent initial analysis
 echo "Phase 1: $LEAD_AGENT initial analysis..."
-PHASE1_REF=$(./automation/generate_ref_tag.sh phase "coord-phase1")
-./automation/invoke_agent.sh "$LEAD_AGENT" HIGH "analyze-task" "$TASK" > "/tmp/phase1_${REF_TAG}.log"
+PHASE1_REF=$("$SCRIPT_DIR/generate_ref_tag.sh" phase "coord-phase1")
+"$SCRIPT_DIR/invoke_agent.sh" "$LEAD_AGENT" HIGH "analyze-task" "$TASK" > "/tmp/phase1_${REF_TAG}.log"
 
 # Phase 2: Support agents contribute
 echo "Phase 2: Support agents contribution..."
@@ -49,14 +51,14 @@ IFS=',' read -ra AGENTS <<< "$SUPPORT_AGENTS"
 for agent in "${AGENTS[@]}"; do
     agent=$(echo "$agent" | xargs) # trim whitespace
     echo "  Invoking $agent for support analysis..."
-    SUPPORT_REF=$(./automation/generate_ref_tag.sh support "coord-support-${agent}")
-    ./automation/invoke_agent.sh "$agent" MEDIUM "support-analysis" "$TASK" > "/tmp/support_${agent}_${REF_TAG}.log"
+    SUPPORT_REF=$("$SCRIPT_DIR/generate_ref_tag.sh" support "coord-support-${agent}")
+    "$SCRIPT_DIR/invoke_agent.sh" "$agent" MEDIUM "support-analysis" "$TASK" > "/tmp/support_${agent}_${REF_TAG}.log"
 done
 
 # Phase 3: Integration by lead agent
 echo "Phase 3: $LEAD_AGENT integration..."
-PHASE3_REF=$(./automation/generate_ref_tag.sh integration "coord-integration")
-./automation/invoke_agent.sh "$LEAD_AGENT" HIGH "integrate-results" "$TASK" > "/tmp/integration_${REF_TAG}.log"
+PHASE3_REF=$("$SCRIPT_DIR/generate_ref_tag.sh" integration "coord-integration")
+"$SCRIPT_DIR/invoke_agent.sh" "$LEAD_AGENT" HIGH "integrate-results" "$TASK" > "/tmp/integration_${REF_TAG}.log"
 
 # Update coordination status
 cat > "/tmp/locus_coordination_${REF_TAG}.json" << EOF
