@@ -1,8 +1,55 @@
-# Claude Pro Integration & MCP Onboarding Guide
-## Project Locus Multi-Agent Infrastructure
+<div align="center">
 
-### Overview
-This guide provides comprehensive onboarding for Claude Pro agents within the Project Locus ecosystem, including MCP (Model Context Protocol) integration, context sharing, and operational procedures.
+```
+🧠 CLAUDE PRO INTEGRATION GUIDE
+┌─────────────────────────────────────────────────────────────┐
+│             MCP Onboarding & Advanced Workflows             │
+│                                                             │
+│  Comprehensive guide for Claude Pro agents within the      │
+│  Project Locus multi-agent infrastructure ecosystem.       │
+└─────────────────────────────────────────────────────────────┘
+```
+
+[![Claude Pro](https://img.shields.io/badge/Claude_Pro-MCP_Ready-success?style=for-the-badge&logo=anthropic&logoColor=white)](https://www.anthropic.com/claude)
+[![MCP Protocol](https://img.shields.io/badge/MCP-Context_Protocol-blue?style=for-the-badge&logo=protocol&logoColor=white)](#-mcp-model-context-protocol-integration)
+[![Agent Status](https://img.shields.io/badge/Agent_Status-LOCUS--CLAUDE--001-purple?style=for-the-badge&logo=robot&logoColor=white)](#-agent-registration)
+
+</div>
+
+---
+
+## 🎯 **Claude Agent Overview**
+
+### 🧠 **Primary Capabilities**
+
+<div align="center">
+
+| 🎯 **Capability** | 📊 **Proficiency** | 🔧 **Use Cases** |
+|:---:|:---:|:---:|
+| **Code Analysis** | ⭐⭐⭐⭐⭐ | Security reviews, optimization, refactoring |
+| **Infrastructure Planning** | ⭐⭐⭐⭐⭐ | Architecture design, scaling strategies |
+| **Documentation** | ⭐⭐⭐⭐⭐ | Technical writing, API docs, guides |
+| **Automation Scripting** | ⭐⭐⭐⭐⭐ | Shell scripts, workflow automation |
+| **Security Review** | ⭐⭐⭐⭐⭐ | Vulnerability assessment, compliance |
+
+</div>
+
+### 🎭 **Agent Identity**
+
+```yaml
+agent_profile:
+  ref_tag: "LOCUS-CLAUDE-001"
+  status: "registered"
+  api_endpoint: "https://api.anthropic.com/v1"
+  auth_method: "github_secret:CLAUDE_API_KEY"
+  heartbeat_interval: 60
+  capabilities:
+    - code_analysis
+    - documentation_generation
+    - infrastructure_planning
+    - automation_scripting
+    - security_review
+```
 
 ---
 
