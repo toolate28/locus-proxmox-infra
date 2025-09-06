@@ -69,7 +69,7 @@ done
 
 # Test 5: Validate example configurations
 echo -e "${YELLOW}Test 5: Validating example configurations...${NC}"
-for config in "$PROJECT_ROOT"/configs/*.json; do
+for config in "$PROJECT_ROOT"/configs/*.example.json; do
     if [[ -f "$config" ]]; then
         if python3 -m json.tool "$config" >/dev/null 2>&1; then
             echo "✓ $(basename "$config") is valid JSON"
