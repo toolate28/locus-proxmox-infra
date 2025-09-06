@@ -144,7 +144,11 @@ setup_scripts() {
     # Validate scripts with shellcheck if available
     if command -v shellcheck &> /dev/null; then
         print_info "Running shellcheck validation..."
-        shellcheck automation/*.sh scripts/*.sh && print_success "Shellcheck validation passed" || print_warning "Shellcheck found warnings (acceptable)"
+        if shellcheck automation/*.sh scripts/*.sh; then
+            print_success "Shellcheck validation passed"
+        else
+            print_warning "Shellcheck found warnings (acceptable)"
+        fi
     else
         print_warning "Shellcheck not available, skipping script validation"
     fi
@@ -154,7 +158,8 @@ setup_scripts() {
 run_validation() {
     print_info "Running Project Locus validation tests..."
     
-    local validation_start=$(date +%s)
+    local validation_start
+    validation_start=$(date +%s)
     
     # Test REF tag generation
     print_info "Testing REF tag generation..."
@@ -201,7 +206,8 @@ run_validation() {
         return 1
     fi
     
-    local validation_end=$(date +%s)
+    local validation_end
+    validation_end=$(date +%s)
     local validation_time=$((validation_end - validation_start))
     
     print_success "All validation tests passed in ${validation_time} seconds"
