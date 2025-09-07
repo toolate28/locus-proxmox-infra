@@ -5,6 +5,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_FILE="$SCRIPT_DIR/../config/machine_topology.json"
 
 # Generate REF tag for this sync operation
 REF_TAG=$("$SCRIPT_DIR/generate_ref_tag.sh" "job" "sync-ref-state")
@@ -132,7 +133,7 @@ sync_state() {
     # Update sync status
     if [ -f "/tmp/locus_ref_state/machine_registry.json" ]; then
         # Update last sync time
-        jq '.last_sync = "'"$(date -Iseconds)"'"' /tmp/locus_ref_state/machine_registry.json > /tmp/machine_registry_tmp.json
+        jq '.last_sync = "'$(date -Iseconds)'"' /tmp/locus_ref_state/machine_registry.json > /tmp/machine_registry_tmp.json
         mv /tmp/machine_registry_tmp.json /tmp/locus_ref_state/machine_registry.json
     fi
     

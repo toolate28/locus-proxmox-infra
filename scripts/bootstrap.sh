@@ -207,9 +207,8 @@ run_validation() {
     fi
     
     local validation_end
-    local validation_time
     validation_end=$(date +%s)
-    validation_time=$((validation_end - validation_start))
+    local validation_time=$((validation_end - validation_start))
     
     print_success "All validation tests passed in ${validation_time} seconds"
     

@@ -53,7 +53,6 @@ for agent in "${AGENTS[@]}"; do
     echo "  Invoking $agent for support analysis..."
     SUPPORT_REF=$("$SCRIPT_DIR/generate_ref_tag.sh" support "coord-support-${agent}")
     "$SCRIPT_DIR/invoke_agent.sh" "$agent" MEDIUM "support-analysis" "$TASK" > "/tmp/support_${agent}_${REF_TAG}.log"
-    echo "    Support REF: $SUPPORT_REF"
 done
 
 # Phase 3: Integration by lead agent

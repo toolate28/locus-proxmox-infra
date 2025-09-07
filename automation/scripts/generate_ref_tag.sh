@@ -20,10 +20,8 @@ generate_ref_tag() {
     local description="${2:-}"
     
     # Read and increment counter
-    local counter
-    local next_counter
-    counter=$(cat "$COUNTER_FILE")
-    next_counter=$(printf "%03d" $((10#$counter + 1)))
+    local counter=$(cat "$COUNTER_FILE")
+    local next_counter=$(printf "%03d" $((10#$counter + 1)))
     echo "$next_counter" > "$COUNTER_FILE"
     
     # Generate REF tag based on type
