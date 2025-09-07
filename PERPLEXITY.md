@@ -105,7 +105,15 @@ echo "Your Perplexity Agent REF: $REF_TAG"
 ./automation/scripts/freshness_loop.sh
 
 # 4. Test research capabilities
-./automation/scripts/invoke_agent.sh perplexity HIGH "infrastructure-research" "proxmox-updates"
+# Example: Use the API call from step 1 to test research capabilities, e.g.:
+# curl -X POST https://api.perplexity.ai/chat/completions \
+#   -H "Authorization: Bearer $PERPLEXITY_API_KEY" \
+#   -H "Content-Type: application/json" \
+#   -d '{
+#     "model": "pplx-7b-online",
+#     "messages": [{"role": "user", "content": "Research infrastructure updates for Proxmox VE"}],
+#     "max_tokens": 100
+#   }'
 ```
 
 ---
