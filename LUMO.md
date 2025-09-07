@@ -24,9 +24,9 @@
 
 <div align="center">
 
-| 🎯 **Capability**         | 📊 **Proficiency** + 🔧 **Pipelines**                         |
-|:-------------------------:|:---------:|:-------------------------------------------------:|
-| **Secure Communications** | ⭐⭐⭐⭐⭐ | End-to-end encrypted messaging, secure handovers  |
+| 🎯 **Capability**         | 📊 **Proficiency** | 🔧 **Pipelines**                         |
+|:-------------------------:|:-----------------:|:-----------------------------------------:|
+| **Secure Communications** | ⭐⭐⭐⭐⭐           | End-to-end encrypted messaging, secure handovers  |
 | **Encrypted Storage**     | ⭐⭐⭐⭐⭐ | Sensitive data protection, secure archiving       |
 | **VPN Management**        | ⭐⭐⭐⭐⭐ | Network security, remote access, traffic routing  |
 | **Privacy Enforcement**   | ⭐⭐⭐⭐⭐ | Data anonymization, privacy compliance, GDPR      |
