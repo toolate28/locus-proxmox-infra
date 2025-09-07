@@ -5,14 +5,14 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-AGENT_STATUS="$SCRIPT_DIR/../context/AGENT_STATUS.json"
 
 # Generate REF tag for this report
 REF_TAG=$("$SCRIPT_DIR/generate_ref_tag.sh" "job" "status-report")
 
 # Function to generate markdown status report
 generate_status_report() {
-    local output_file="$SCRIPT_DIR/../../docs/status_report_$(date +%Y%m%d_%H%M%S).md"
+    local output_file
+    output_file="$SCRIPT_DIR/../../docs/status_report_$(date +%Y%m%d_%H%M%S).md"
     
     cat > "$output_file" << EOF
 # Project Locus Infrastructure Status Report
@@ -117,7 +117,8 @@ EOF
 
 # Function to generate JSON status for API consumption
 generate_json_status() {
-    local output_file="/tmp/locus_status_$(date +%Y%m%d_%H%M%S).json"
+    local output_file
+    output_file="/tmp/locus_status_$(date +%Y%m%d_%H%M%S).json"
     
     cat > "$output_file" << EOF
 {

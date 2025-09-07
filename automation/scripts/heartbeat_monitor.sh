@@ -5,7 +5,6 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-AGENT_STATUS="$SCRIPT_DIR/../context/AGENT_STATUS.json"
 HEARTBEAT_LOG="/tmp/locus_heartbeat.log"
 
 # Generate REF tag for this heartbeat check
@@ -14,7 +13,8 @@ REF_TAG=$("$SCRIPT_DIR/generate_ref_tag.sh" "job" "heartbeat-monitor")
 # Function to check agent heartbeat
 check_agent_heartbeat() {
     local agent_name="$1"
-    local current_time=$(date -Iseconds)
+    local current_time
+    current_time=$(date -Iseconds)
     
     echo "Checking heartbeat for agent: $agent_name"
     
@@ -56,7 +56,8 @@ check_agent_heartbeat() {
 update_agent_status() {
     local agent_name="$1"
     local status="$2"
-    local current_time=$(date -Iseconds)
+    local current_time
+    current_time=$(date -Iseconds)
     
     echo "Updating status for $agent_name: $status"
     
@@ -71,13 +72,14 @@ detect_failed_agents() {
     
     # Read heartbeat interval from config (default 60 seconds)
     local heartbeat_interval=60
-    local current_time=$(date +%s)
+    local current_time
+    current_time=$(date +%s)
     
     # Check each agent's last heartbeat
     for agent in claude_pro perplexity_pro proton_lumo; do
         # In a real implementation, this would read from AGENT_STATUS.json
-        # and compare timestamps
-        echo "  $agent: Last seen within heartbeat interval"
+        # and compare timestamps against heartbeat_interval
+        echo "  $agent: Last seen within ${heartbeat_interval}s heartbeat interval"
     done
     
     echo "  No failed agents detected"
@@ -110,7 +112,8 @@ EOF
 
 # Function to generate heartbeat report
 generate_heartbeat_report() {
-    local output_file="/tmp/locus_heartbeat_report_$(date +%Y%m%d_%H%M%S).json"
+    local output_file
+    output_file="/tmp/locus_heartbeat_report_$(date +%Y%m%d_%H%M%S).json"
     
     cat > "$output_file" << EOF
 {

@@ -5,7 +5,6 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CONFIG_FILE="$SCRIPT_DIR/../config/vm_templates.json"
 
 # Generate REF tag for this provisioning job
 REF_TAG=$("$SCRIPT_DIR/generate_ref_tag.sh" "job" "vm-provision")
@@ -33,7 +32,8 @@ validate_input() {
 generate_vm_config() {
     local vm_type="$1"
     local vm_name="$2"
-    local vm_ref="LOCUS-VM-$(echo "$vm_name" | tr '[:lower:]' '[:upper:]')"
+    local vm_ref
+    vm_ref="LOCUS-VM-$(echo "$vm_name" | tr '[:lower:]' '[:upper:]')"
     
     case "$vm_type" in
         "web")
@@ -142,9 +142,12 @@ EOF
 # Function to check resource availability
 check_resource_availability() {
     local config="$1"
-    local cpu_required=$(echo "$config" | jq -r '.resources.cpu')
-    local memory_required=$(echo "$config" | jq -r '.resources.memory')
-    local disk_required=$(echo "$config" | jq -r '.resources.disk')
+    local cpu_required
+    local memory_required
+    local disk_required
+    cpu_required=$(echo "$config" | jq -r '.resources.cpu')
+    memory_required=$(echo "$config" | jq -r '.resources.memory')
+    disk_required=$(echo "$config" | jq -r '.resources.disk')
     
     echo "Checking resource availability..."
     echo "  Required: ${cpu_required} CPU, ${memory_required} RAM, ${disk_required} disk"
@@ -159,9 +162,12 @@ check_resource_availability() {
 # Function to provision VM
 provision_vm() {
     local config="$1"
-    local vm_name=$(echo "$config" | jq -r '.name')
-    local vm_ref=$(echo "$config" | jq -r '.ref_tag')
-    local vm_type=$(echo "$config" | jq -r '.type')
+    local vm_name
+    local vm_ref
+    local vm_type
+    vm_name=$(echo "$config" | jq -r '.name')
+    vm_ref=$(echo "$config" | jq -r '.ref_tag')
+    vm_type=$(echo "$config" | jq -r '.type')
     
     echo "Provisioning VM: $vm_name ($vm_ref)"
     echo "  Type: $vm_type"
@@ -190,8 +196,10 @@ provision_vm() {
 # Function to register VM in monitoring
 register_monitoring() {
     local config="$1"
-    local vm_ref=$(echo "$config" | jq -r '.ref_tag')
-    local vm_name=$(echo "$config" | jq -r '.name')
+    local vm_ref
+    local vm_name
+    vm_ref=$(echo "$config" | jq -r '.ref_tag')
+    vm_name=$(echo "$config" | jq -r '.name')
     
     echo "Registering VM in monitoring system..."
     echo "  REF: $vm_ref"
@@ -204,8 +212,10 @@ register_monitoring() {
 # Function to setup backup schedule
 setup_backup() {
     local config="$1"
-    local backup_schedule=$(echo "$config" | jq -r '.backup_schedule')
-    local vm_name=$(echo "$config" | jq -r '.name')
+    local backup_schedule
+    local vm_name
+    backup_schedule=$(echo "$config" | jq -r '.backup_schedule')
+    vm_name=$(echo "$config" | jq -r '.name')
     
     if [ "$backup_schedule" != "none" ]; then
         echo "Setting up backup schedule: $backup_schedule"
@@ -222,7 +232,8 @@ setup_backup() {
 # Function to generate provisioning report
 generate_report() {
     local config="$1"
-    local output_file="/tmp/locus_vm_provision_$(date +%Y%m%d_%H%M%S).json"
+    local output_file
+    output_file="/tmp/locus_vm_provision_$(date +%Y%m%d_%H%M%S).json"
     
     cat > "$output_file" << EOF
 {
@@ -271,7 +282,8 @@ main() {
     validate_input "$vm_type" "$vm_name"
     
     echo "Generating VM configuration..."
-    local vm_config=$(generate_vm_config "$vm_type" "$vm_name")
+    local vm_config
+    vm_config=$(generate_vm_config "$vm_type" "$vm_name")
     echo "$vm_config" | jq '.'
     echo
     
