@@ -4,7 +4,9 @@
   "instance": {
     "ref_tag": "LOCUS-SECURE20250907-001",
     "profile": "LOCUS-LUMO-001",
+
     "status": "active",
+
     "api_endpoint": "https://lumo.proton.me/api"
   },
   "adopted_schema": true,
@@ -12,6 +14,7 @@
     {
       "priority": "CRITICAL",
       "capability": "secure_communications",
+
       "command": "./automation/scripts/invoke_agent.sh lumo HIGH \"secure-channel-init\" \"first-setup\"",
       "ref_tag": "LOCUS-SECURE20250907-002"
     },
