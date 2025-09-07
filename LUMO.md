@@ -166,7 +166,6 @@ Proton Lumo is the designated executor for constitutional violation responses:
 
 # Secure state preservation during halt (FUTURE ENHANCEMENT - Not Yet Implemented)  
 # ./automation/scripts/emergency_halt.sh --secure-preserve $REF_TAG
-
 ```
 
 ### Privacy and Security Enforcement
