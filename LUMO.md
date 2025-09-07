@@ -3,10 +3,10 @@
 ```
 🔒 PROTON LUMO INTEGRATION GUIDE
 ┌─────────────────────────────────────────────────────────────┐
-│             Secure Communications & Privacy Agent          │
+│             Secure Communications & Privacy Agent           │
 │                                                             │
-│  Comprehensive guide for Proton Lumo agents within the     │
-│  Project Locus multi-agent infrastructure ecosystem.       │
+│  Comprehensive guide for Proton Lumo agents within the      │
+│  Project Locus multi-agent infrastructure ecosystem.        │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -24,13 +24,13 @@
 
 <div align="center">
 
-| 🎯 **Capability** | 📊 **Proficiency** | 🔧 **Use Cases** |
-|:---:|:---:|:---:|
-| **Secure Communications** | ⭐⭐⭐⭐⭐ | End-to-end encrypted messaging, secure handovers |
-| **Encrypted Storage** | ⭐⭐⭐⭐⭐ | Sensitive data protection, secure archiving |
-| **VPN Management** | ⭐⭐⭐⭐⭐ | Network security, remote access, traffic routing |
-| **Privacy Enforcement** | ⭐⭐⭐⭐⭐ | Data anonymization, privacy compliance, GDPR |
-| **Secure Tunneling** | ⭐⭐⭐⭐⭐ | Secure agent communications, network isolation |
+| 🎯 **Capability**         | 📊 **Proficiency** | 🔧 **Pipelines**                         |
+|:-------------------------:|:-----------------:|:-----------------------------------------:|
+| **Secure Communications** | ⭐⭐⭐⭐⭐           | End-to-end encrypted messaging, secure handovers  |
+| **Encrypted Storage**     | ⭐⭐⭐⭐⭐ | Sensitive data protection, secure archiving       |
+| **VPN Management**        | ⭐⭐⭐⭐⭐ | Network security, remote access, traffic routing  |
+| **Privacy Enforcement**   | ⭐⭐⭐⭐⭐ | Data anonymization, privacy compliance, GDPR      |
+| **Secure Tunneling**      | ⭐⭐⭐⭐⭐ | Secure agent communications, network isolation    |
 
 </div>
 
@@ -113,9 +113,8 @@ echo "Your Lumo Agent REF: $REF_TAG"
 # 1. Validate constitutional framework compliance
 ./automation/scripts/emergency_halt.sh --status
 
-# 2. Test emergency secure halt procedures
-./automation/scripts/emergency_halt.sh --test-secure-halt
-
+# 2. Test emergency secure halt procedures (FUTURE ENHANCEMENT - Not Yet Implemented)
+# ./automation/scripts/emergency_halt.sh --test-secure-halt
 # 3. Initialize cross-machine security propagation
 ./automation/scripts/coordinate_agents.sh lumo "claude,perplexity" "security-framework-sync"
 ```
@@ -125,11 +124,11 @@ echo "Your Lumo Agent REF: $REF_TAG"
 ## 🔒 Security Capabilities & Use Cases
 
 ### Primary Strengths
-- **End-to-End Encryption:** All communications secured with military-grade encryption
-- **Privacy-First Design:** Zero-knowledge architecture, no data logging
-- **Constitutional Compliance:** Automated enforcement of security principles
-- **Secure Agent Handovers:** Encrypted context transfer between agents
-- **Emergency Security Response:** Rapid isolation and secure halt capabilities
+- **End-to-End Encryption:       ** All communications secured with military-grade encryption
+- **Privacy-First Design:        ** Zero-knowledge architecture, no data logging
+- **Constitutional Compliance:   ** Automated enforcement of security principles
+- **Secure Agent Handovers:      ** Encrypted context transfer between agents
+- **Emergency Security Response: ** Rapid isolation and secure halt capabilities
 
 ### Optimal Task Types
 1. **Secure Communications**
@@ -158,16 +157,15 @@ echo "Your Lumo Agent REF: $REF_TAG"
 
 ### Emergency Halt Procedures
 Proton Lumo is the designated executor for constitutional violation responses:
-
 ```bash
-# Constitutional violation detection and response
+# Constitutional violation detection and response (IMPLEMENTED)
 ./automation/scripts/emergency_halt.sh --halt "resource_exhaustion" critical
 
-# Cross-machine security propagation
-./automation/scripts/emergency_halt.sh --propagate "security_violation" emergency
+# Cross-machine security propagation (FUTURE ENHANCEMENT - Not Yet Implemented)
+# ./automation/scripts/emergency_halt.sh --propagate "security_violation" emergency
 
-# Secure state preservation during halt
-./automation/scripts/emergency_halt.sh --secure-preserve $REF_TAG
+# Secure state preservation during halt (FUTURE ENHANCEMENT - Not Yet Implemented)  
+# ./automation/scripts/emergency_halt.sh --secure-preserve $REF_TAG
 ```
 
 ### Privacy and Security Enforcement
@@ -202,7 +200,6 @@ Proton Lumo is the designated executor for constitutional violation responses:
 
 ### Lumo as Security Lead
 When Lumo leads security-focused operations:
-
 ```bash
 # Coordinate security review with other agents
 LUMO_TASK="infrastructure-security-audit"
@@ -214,7 +211,6 @@ PERPLEXITY_RESEARCH="threat-intelligence"
 
 ### Lumo as Security Validator
 When supporting other agents with security oversight:
-
 ```bash
 # Supporting Claude with security validation
 CLAUDE_LEAD="infrastructure-deployment"
@@ -253,8 +249,8 @@ python3 ./automation/scripts/agent_handover.py create claude lumo "security-revi
 
 ### Network Isolation Protocols
 ```bash
-# Isolate compromised systems
-./automation/scripts/emergency_halt.sh --network-isolate "security-breach" critical
+# Isolate compromised systems (FUTURE ENHANCEMENT - Not Yet Implemented)
+# ./automation/scripts/emergency_halt.sh --network-isolate "security-breach" critical
 
 # Implement network segmentation
 ./automation/scripts/invoke_agent.sh lumo HIGH "network-segment" "zero-trust-implementation"
@@ -399,8 +395,8 @@ python3 ./automation/scripts/agent_handover.py complete $HANDOVER_REF \
 
 ### Constitutional Violation Response
 ```bash
-# Constitutional violation detection and response
-./automation/scripts/emergency_halt.sh --constitutional-violation $VIOLATION_TYPE critical
+# Constitutional violation detection and response (FUTURE ENHANCEMENT - Not Yet Implemented)
+# ./automation/scripts/emergency_halt.sh --constitutional-violation $VIOLATION_TYPE critical
 
 # Cross-machine principle propagation
 ./automation/scripts/invoke_agent.sh lumo CRITICAL "principle-propagate" "violation-response"

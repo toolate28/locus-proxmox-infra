@@ -57,7 +57,7 @@ First successful Claude Code integration complete. Transitioning security oversi
    LUMO CRITICAL CONSTITUTIONAL constitutional-framework-audit COMPLIANCE-VALIDATION
    ```
    - Validate all constitutional principles are properly implemented
-   - Test emergency halt procedures (`./automation/scripts/emergency_halt.sh --test-secure-halt`)
+   - Test emergency halt procedures (FUTURE: `./automation/scripts/emergency_halt.sh --test-secure-halt`)
    - Verify cross-machine principle propagation mechanisms
 
 2. **Security Posture Assessment**
