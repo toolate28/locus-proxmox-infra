@@ -6,6 +6,8 @@ set -euo pipefail
 
 # Source configuration
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_FILE="$SCRIPT_DIR/../config/resource_config.json"
+AGENT_STATUS="$SCRIPT_DIR/../context/AGENT_STATUS.json"
 
 # Generate REF tag for this check
 REF_TAG=$("$SCRIPT_DIR/generate_ref_tag.sh" "job" "resource-check")
@@ -68,8 +70,7 @@ update_heartbeat() {
 
 # Function to generate resource report
 generate_report() {
-    local output_file
-    output_file="/tmp/locus_resource_report_$(date +%Y%m%d_%H%M%S).json"
+    local output_file="/tmp/locus_resource_report_$(date +%Y%m%d_%H%M%S).json"
     
     cat > "$output_file" << EOF
 {

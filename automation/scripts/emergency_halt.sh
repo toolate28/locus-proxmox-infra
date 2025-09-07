@@ -102,8 +102,7 @@ check_status() {
         echo "=== Active Emergency Halts ==="
         
         # Find all active emergency halts
-        local emergency_files
-        mapfile -t emergency_files < <(find /tmp -name "locus_emergency_halt_*.json" 2>/dev/null || true)
+        local emergency_files=($(find /tmp -name "locus_emergency_halt_*.json" 2>/dev/null || true))
         
         if [ ${#emergency_files[@]} -eq 0 ]; then
             echo "✓ No active emergency halts"
@@ -111,14 +110,10 @@ check_status() {
         fi
         
         for file in "${emergency_files[@]}"; do
-            local halt_ref
-            local reason
-            local approved
-            local timestamp
-            halt_ref=$(jq -r '.ref_tag' "$file" 2>/dev/null || echo "unknown")
-            reason=$(jq -r '.reason' "$file" 2>/dev/null || echo "unknown")
-            approved=$(jq -r '.human_approval_received' "$file" 2>/dev/null || echo "false")
-            timestamp=$(jq -r '.timestamp' "$file" 2>/dev/null || echo "unknown")
+            local halt_ref=$(jq -r '.ref_tag' "$file" 2>/dev/null || echo "unknown")
+            local reason=$(jq -r '.reason' "$file" 2>/dev/null || echo "unknown")
+            local approved=$(jq -r '.human_approval_received' "$file" 2>/dev/null || echo "false")
+            local timestamp=$(jq -r '.timestamp' "$file" 2>/dev/null || echo "unknown")
             
             echo "🚨 $halt_ref: $reason (approved: $approved) - $timestamp"
         done
@@ -157,7 +152,7 @@ approve_halt() {
     echo "REF: $ref_tag"
     
     # Update halt record with approval
-    jq '.human_approval_received = true | .approved_at = "'"$(date -Iseconds)"'" | .approved_by = "'"$(whoami)"'"' \
+    jq '.human_approval_received = true | .approved_at = "'$(date -Iseconds)'" | .approved_by = "'$(whoami)'"' \
        "$halt_file" > "${halt_file}.tmp" && mv "${halt_file}.tmp" "$halt_file"
     
     echo "✓ Emergency halt approved for resolution"
@@ -165,8 +160,7 @@ approve_halt() {
     echo "📋 Updated record: $halt_file"
     
     # Log approval
-    local approval_ref
-    approval_ref=$("$SCRIPT_DIR/generate_ref_tag.sh" "job" "halt-approval")
+    local approval_ref=$("$SCRIPT_DIR/generate_ref_tag.sh" "job" "halt-approval")
     cat > "/tmp/locus_halt_approval_${approval_ref}.json" << EOF
 {
   "ref_tag": "$approval_ref",
