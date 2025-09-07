@@ -442,7 +442,11 @@ Located in `context/claude_prompts/`:
 - ✅ REF Tag Schema Documented (NEW)
 - ✅ First Active Claude Session Recorded (NEW)
 - 🔄 API Integration Enhancement (Planned)
+<<<<<<< HEAD
 ## Claude Code "Memories" (Guard Rails & Global Rules)
+=======
+- # Claude Code "Memories" (Guard Rails & Global Rules)
+>>>>>>> main
 _Expanded for Project Locus: locus-proxmox-infra_
 
 ## 1. Security & Compliance
