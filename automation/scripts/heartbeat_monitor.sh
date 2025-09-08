@@ -79,6 +79,7 @@ detect_failed_agents() {
     for agent in claude_pro perplexity_pro proton_lumo; do
         # In a real implementation, this would read from AGENT_STATUS.json
         # and compare timestamps against heartbeat_interval
+        # TODO: Implement timestamp comparison to detect agents that missed their heartbeat
         echo "  $agent: Last seen within ${heartbeat_interval}s heartbeat interval"
     done
     
