@@ -1,12 +1,3 @@
-consider this... used for heading or cleverly woven into page borders/ formatting etc
-
--------------------------------------------------
-these are the unknown contributors .....
--------------------------------------------------
-LARGER TEXT
-LARGER TEXT
-
-# Project Locus README.md v2025.09.08
 
 ```
 ██╗      ██████╗  ██████╗██╗   ██╗███████╗
