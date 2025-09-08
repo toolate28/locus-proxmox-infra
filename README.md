@@ -61,9 +61,9 @@
 │  │         PROXMOX INFRASTRUCTURE                  │           │
 │  │  ┌─────────┐  ┌─────────┐  ┌─────────┐          │           │
 │  │  │ PVE 8.x │  │ PBS     │  │ PMG     │          │           │
-│  │  │ Cluster │  │ Backup  │  │ Mail    │          │           │
+│  │  │ Cluster │  │ Backup  │  │ Mail    │          │             │
 │  │  └─────────┘  └─────────┘  └─────────┘          │           │
-│  └─────────────────────────────────────────────────┘           │
+│  └─────────────────────────────────────────────────┘            │
 │                                                                 │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -214,7 +214,3 @@ curl -fsSL https://raw.githubusercontent.com/toolate28/locus-proxmox-infra/main/
 ***
 
 *Every line of code, every protocol, every innovation in Project Locus stands on the foundation built by these incredible platforms, projects, and communities. This is our tribute to the unknown heroes who make modern infrastructure automation possible.*
-
-Citations:
-[1] locus-notification-context-system-2.md https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/75310720/0241c14b-41e9-4a67-bce8-91d08c487cb4/locus-notification-context-system-2.md
-[2] compass_artifact_wf-35b0ac43-7b89-4124-adaa-691e7bdecb79_text_markdown.md https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/75310720/a890c977-e3c0-4883-bdd3-b574ee723e4d/compass_artifact_wf-35b0ac43-7b89-4124-adaa-691e7bdecb79_text_markdown.md
