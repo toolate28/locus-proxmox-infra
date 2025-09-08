@@ -132,7 +132,7 @@ sync_state() {
     # Update sync status
     if [ -f "/tmp/locus_ref_state/machine_registry.json" ]; then
         # Update last sync time
-        jq '.last_sync = "'"$(date -Iseconds)"'"' /tmp/locus_ref_state/machine_registry.json > /tmp/machine_registry_tmp.json
+        main
         mv /tmp/machine_registry_tmp.json /tmp/locus_ref_state/machine_registry.json
     fi
     
