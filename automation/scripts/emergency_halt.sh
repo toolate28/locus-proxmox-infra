@@ -102,7 +102,10 @@ check_status() {
         echo "=== Active Emergency Halts ==="
         
         # Find all active emergency halts
+<<<<<<< HEAD
         local emergency_files
+=======
+>>>>>>> main
         mapfile -t emergency_files < <(find /tmp -name "locus_emergency_halt_*.json" 2>/dev/null || true)
         
         if [ ${#emergency_files[@]} -eq 0 ]; then
