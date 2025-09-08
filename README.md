@@ -66,6 +66,28 @@ Installation & Setup
 
     Manual: See docs/onboarding_playbook.md for step-by-step, including dependency checks and system validation.
 
+## 🔥 Firewall & Connectivity
+
+**⚠️ Important:** External API access may be blocked by firewall rules. If you encounter connectivity issues:
+
+```bash
+# Quick connectivity test
+./automation/scripts/firewall_diagnostics.sh check
+
+# Get firewall configuration help
+./automation/scripts/firewall_diagnostics.sh fix
+
+# Enable offline mode (local operations only)
+./automation/scripts/firewall_diagnostics.sh offline
+```
+
+**Required External Access:**
+- `api.anthropic.com:443` (Claude Pro API)
+- `api.perplexity.ai:443` (Research API)
+- `lumo.proton.me:443` (Secure Communications)
+
+See [docs/firewall_troubleshooting_guide.md](docs/firewall_troubleshooting_guide.md) for detailed troubleshooting.
+
 Real-Time Monitoring
 
 ┌─────────────────────────────────────────────────────────────┐
