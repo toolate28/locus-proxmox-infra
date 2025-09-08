@@ -75,7 +75,7 @@ generate_research_query() {
     local infrastructure_context="$1"
     
     cat << EOF
-Based on the following Proxmox infrastructure status ($infrastructure_context), provide a real-time analysis of:
+Based on the following Proxmox infrastructure status (current_infrastructure), provide a real-time analysis of:
 
 Current Infrastructure:
 - Proxmox VE cluster: 3 nodes, 15 VMs running
