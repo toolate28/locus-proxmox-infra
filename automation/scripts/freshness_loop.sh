@@ -5,7 +5,6 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-AGENT_STATUS="$SCRIPT_DIR/../context/AGENT_STATUS.json"
 
 # Generate REF tag for this freshness check
 REF_TAG=$("$SCRIPT_DIR/generate_ref_tag.sh" "job" "freshness-loop")
@@ -93,7 +92,7 @@ generate_research_query() {
     local infrastructure_context="$1"
     
     cat << EOF
-Based on the following Proxmox infrastructure status, provide a real-time analysis of:
+Based on the following Proxmox infrastructure status (current_infrastructure), provide a real-time analysis of:
 
 Current Infrastructure:
 - Proxmox VE cluster: 3 nodes, 15 VMs running
@@ -162,7 +161,8 @@ EOF
 # Function to generate freshness report
 generate_freshness_report() {
     local research_results="$1"
-    local output_file="/tmp/locus_freshness_report_$(date +%Y%m%d_%H%M%S).md"
+    local output_file
+    output_file="/tmp/locus_freshness_report_$(date +%Y%m%d_%H%M%S).md"
     
     cat > "$output_file" << EOF
 # Project Locus Infrastructure Freshness Report
@@ -317,13 +317,15 @@ main() {
     
     # Generate research query
     echo "Generating research query..."
-    local query=$(generate_research_query "current_infrastructure")
+    local query
+    query=$(generate_research_query "current_infrastructure")
     echo "  Query prepared for Perplexity Pro"
     echo
     
     # Call Perplexity for real-time research
     echo "Executing research via Perplexity Pro..."
-    local research_results=$(call_perplexity_research "$query")
+    local research_results
+    research_results=$(call_perplexity_research "$query")
     echo "  Research completed successfully"
     echo
     
