@@ -226,8 +226,32 @@ echo "Updating DNS configuration for domain mapping - REF: $REF_TAG" >> /var/log
    curl -v https://api.anthropic.com/v1/health
    curl -v https://api.perplexity.ai/health
    
+   # Run comprehensive firewall diagnostics
+   ./automation/scripts/firewall_diagnostics.sh check
+   
+   # Get suggested firewall fixes
+   ./automation/scripts/firewall_diagnostics.sh fix
+   
+   # Enable offline mode for blocked environments
+   ./automation/scripts/firewall_diagnostics.sh offline
+   
    # Check proxy configuration
    ./automation/scripts/heartbeat_monitor.sh
+   ```
+
+4. **Firewall Blocking External APIs**
+   ```bash
+   # Quick connectivity test
+   ./automation/scripts/firewall_diagnostics.sh check
+   
+   # Generate comprehensive diagnostics report
+   ./automation/scripts/firewall_diagnostics.sh report
+   
+   # View suggested iptables rules
+   ./automation/scripts/firewall_diagnostics.sh fix
+   
+   # Enable offline mode (automation scripts work without external APIs)
+   ./automation/scripts/firewall_diagnostics.sh offline
    ```
 
 ## Compliance and Auditing
