@@ -68,17 +68,17 @@ The following scripts are available for research integration:
 
 ```bash
 # Research query automation via freshness loop
-./automation/freshness_loop.sh
+./automation/scripts/freshness_loop.sh
 
 # Generate research REF tags
-./automation/generate_ref_tag.sh task "perplexity-research"
+./automation/scripts/generate_ref_tag.sh task "perplexity-research"
 
 # Coordinate research tasks with other agents
-./automation/coordinate_agents.sh perplexity_pro claude "research-task"
+./automation/scripts/coordinate_agents.sh perplexity_pro claude "research-task"
 ```
 
 ### Integration Points
-- **Freshness Loop:** `/automation/freshness_loop.sh` ready for article-based insights
+- **Freshness Loop:** `/automation/scripts/freshness_loop.sh` ready for article-based insights
 - **Status Reports:** Can incorporate article-derived recommendations
 - **Agent Coordination:** Perplexity agent ready for article-driven research
 
@@ -135,7 +135,7 @@ output_destination: "docs/|reports/|knowledge_base/"
 **Example Request:**
 ```bash
 # Submit integration request via invoke_agent
-./automation/invoke_agent.sh perplexity_pro high \
+./automation/scripts/invoke_agent.sh perplexity_pro high \
   "research-integration" \
   "scope:full,topics:proxmox-virtualization-security,schedule:weekly"
 ```

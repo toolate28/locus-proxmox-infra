@@ -1,0 +1,29 @@
+version: 2
+updates:
+  # GitHub Actions dependencies
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "toolate28"
+    assignees:
+      - "toolate28"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "github-actions"
+      - "security"
+    allow:
+      - dependency-type: "all"
+    ignore:
+      # Ignore patch updates for stable actions
+      - dependency-name: "actions/checkout"
+        update-types: ["version-update:semver-patch"]
+      - dependency-name: "actions/upload-artifact"
+        update-types: ["version-update:semver-patch"]

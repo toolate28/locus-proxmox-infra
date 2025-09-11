@@ -20,8 +20,10 @@ generate_ref_tag() {
     local description="${2:-}"
     
     # Read and increment counter
-    local counter=$(cat "$COUNTER_FILE")
-    local next_counter=$(printf "%03d" $((10#$counter + 1)))
+    local counter
+    local next_counter
+    counter=$(cat "$COUNTER_FILE")
+    next_counter=$(printf "%03d" $((10#$counter + 1)))
     echo "$next_counter" > "$COUNTER_FILE"
     
     # Generate REF tag based on type
@@ -41,6 +43,27 @@ generate_ref_tag() {
         "artifact")
             echo "${REF_PREFIX}-ART${TIMESTAMP}-${counter}"
             ;;
+        "notify")
+            echo "${REF_PREFIX}-NOTIFY-${TIMESTAMP}-${counter}"
+            ;;
+        "research")
+            echo "${REF_PREFIX}-RESEARCH-${TIMESTAMP}-${counter}"
+            ;;
+        "dash")
+            echo "${REF_PREFIX}-DASH-${TIMESTAMP}-${counter}"
+            ;;
+        "dashboard")
+            echo "${REF_PREFIX}-DASH-${TIMESTAMP}-${counter}"
+            ;;
+        "schema")
+            echo "${REF_PREFIX}-SCHEMA-${TIMESTAMP}-${counter}"
+            ;;
+        "validate")
+            echo "${REF_PREFIX}-VALIDATE-${TIMESTAMP}-${counter}"
+            ;;
+        "deploy")
+            echo "${REF_PREFIX}-DEPLOY-${TIMESTAMP}-${counter}"
+            ;;
         *)
             echo "${REF_PREFIX}-${type^^}${TIMESTAMP}-${counter}"
             ;;
@@ -53,8 +76,10 @@ generate_ref_tag() {
 # Main execution
 if [ $# -lt 1 ]; then
     echo "Usage: $0 <type> [description]"
-    echo "Types: task, agent, resource, job, artifact, or custom"
+    echo "Types: task, agent, resource, job, artifact, notify, research, dash, schema, validate, deploy, or custom"
     echo "Example: $0 task 'VM provisioning handover'"
+    echo "Example: $0 notify 'System-wide notification'"
+    echo "Example: $0 research 'Infrastructure analysis'"
     exit 1
 fi
 

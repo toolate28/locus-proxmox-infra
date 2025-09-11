@@ -1,0 +1,15 @@
+{
+  "artifact_version": "1.0",
+  "generated_at": "2025-09-07T08:52:00Z",
+  "instance": {
+    "ref_tag": "LOCUS-SECURE20250907-001",
+    "profile": "LOCUS-LUMO-001",
+    "status": "registered",
+    "api_endpoint": "https://lumo.proton.me/api"
+  },
+  "adopted_schema": true,
+  "tasks_started": [
+    {
+      "priority": "CRITICAL",
+      "capability": "secure_communications",
+      "command": "./automation/scripts/invoke_agent.sh lumo HIGH \"secure-channel-init\" \"first-setup\"",

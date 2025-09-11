@@ -29,10 +29,10 @@ cat handover/REF-TASK20240904-01.md
 ### Initial Testing
 ```bash
 # Test REF tag generation
-./automation/generate_ref_tag.sh task "onboarding-test"
+./automation/scripts/generate_ref_tag.sh task "onboarding-test"
 
 # Run a basic resource check
-./automation/resource_check.sh
+./automation/scripts/resource_check.sh
 
 # Generate your first status report
 ./automation/status_report.sh
@@ -74,7 +74,7 @@ Select one primary agent for your initial onboarding:
 3. **Update Agent Status**
    ```bash
    # Generate your agent REF tag
-   REF_TAG=$(./automation/generate_ref_tag.sh agent "your-agent-name")
+   REF_TAG=$(./automation/scripts/generate_ref_tag.sh agent "your-agent-name")
    echo "Your agent REF: $REF_TAG"
    
    # Update context/AGENT_STATUS.json with your agent details
@@ -85,9 +85,9 @@ Select one primary agent for your initial onboarding:
 ### Exercise 1: REF Tag Management
 ```bash
 # Generate different types of REF tags
-./automation/generate_ref_tag.sh task "learn-ref-tagging"
-./automation/generate_ref_tag.sh job "practice-monitoring"
-./automation/generate_ref_tag.sh artifact "training-report"
+./automation/scripts/generate_ref_tag.sh task "learn-ref-tagging"
+./automation/scripts/generate_ref_tag.sh job "practice-monitoring"
+./automation/scripts/generate_ref_tag.sh artifact "training-report"
 
 # Review audit trail
 cat /tmp/locus_ref_audit.log
@@ -96,7 +96,7 @@ cat /tmp/locus_ref_audit.log
 ### Exercise 2: Resource Monitoring
 ```bash
 # Run comprehensive resource check
-./automation/resource_check.sh
+./automation/scripts/resource_check.sh
 
 # Examine the generated report
 ls -la /tmp/locus_resource_report_*.json
@@ -108,8 +108,8 @@ cat config/resource_config.json
 ### Exercise 3: VM Provisioning Simulation
 ```bash
 # Test different VM types
-./automation/vm_provision.sh web "training-web-01"
-./automation/vm_provision.sh database "training-db-01"
+./automation/scripts/vm_provision.sh web "training-web-01"
+./automation/scripts/vm_provision.sh database "training-db-01"
 
 # Review provisioning reports
 ls -la /tmp/locus_vm_provision_*.json
@@ -147,7 +147,7 @@ cp handover/REF-TASK20240904-01.md handover/REF-TASK$(date +%Y%m%d)-TRAINING.md
 #### Step-by-Step Handover
 ```bash
 # 1. Generate handover REF tag
-HANDOVER_REF=$(./automation/generate_ref_tag.sh task "training-handover")
+HANDOVER_REF=$(./automation/scripts/generate_ref_tag.sh task "training-handover")
 
 # 2. Update your handover marker with current status
 cat > handover/REF-TASK$(date +%Y%m%d)-TRAINING.md << EOF
@@ -238,12 +238,12 @@ echo "✓ VPN management: Ready"
 ### End-to-End Workflow Test
 ```bash
 # Complete workflow simulation
-REF_TAG=$(./automation/generate_ref_tag.sh job "onboarding-final-test")
+REF_TAG=$(./automation/scripts/generate_ref_tag.sh job "onboarding-final-test")
 
 echo "Starting end-to-end test with REF: $REF_TAG"
 
 # 1. Resource check
-./automation/resource_check.sh
+./automation/scripts/resource_check.sh
 
 # 2. Status report
 ./automation/status_report.sh
@@ -279,7 +279,7 @@ echo "✓ End-to-end test completed successfully"
 ### Certification
 ```bash
 # Generate your onboarding completion certificate
-CERT_REF=$(./automation/generate_ref_tag.sh artifact "onboarding-certificate")
+CERT_REF=$(./automation/scripts/generate_ref_tag.sh artifact "onboarding-certificate")
 
 cat > /tmp/locus_onboarding_certificate.md << EOF
 # Project Locus Onboarding Certification
@@ -315,7 +315,7 @@ echo "Certificate generated: /tmp/locus_onboarding_certificate.md"
 
 ### Resources & Support
 - **Documentation:** `docs/` directory
-- **Scripts:** `automation/` directory  
+- **Scripts:** `automation/scripts/` directory  
 - **Configuration:** `config/` directory
 - **Status:** `context/AGENT_STATUS.json`
 
