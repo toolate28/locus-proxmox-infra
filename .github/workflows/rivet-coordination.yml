@@ -34,7 +34,7 @@ jobs:
       coordination_id: ${{ steps.generate-ref.outputs.coordination_id }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Generate REF tag
         id: generate-ref
@@ -69,7 +69,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node.js for Rivet simulation
         uses: actions/setup-node@v4
