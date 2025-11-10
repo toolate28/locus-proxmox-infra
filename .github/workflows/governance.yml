@@ -138,7 +138,7 @@ jobs:
             >> compliance-report.md
 
       - name: Upload compliance report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: compliance-report
           path: compliance-report.md

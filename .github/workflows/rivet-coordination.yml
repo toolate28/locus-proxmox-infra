@@ -216,7 +216,7 @@ jobs:
           echo "✅ Debug trace generated"
 
       - name: Upload coordination artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: rivet-coordination-${{ needs.setup-coordination.outputs.ref_tag }}
           path: |
